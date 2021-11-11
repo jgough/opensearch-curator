@@ -3,7 +3,7 @@
 ** Note **
 ==========
 This repo is a work in progress: is it untested and serves as a starting point for
-making Elastic Curator compatible with OpenSearch by replacing the elasticsearc library
+making Elastic Curator compatible with OpenSearch by replacing the elasticsearch library
 with opensearch-py.
 
 Many URLs and references have not yet been updated, only a simple search and replace
