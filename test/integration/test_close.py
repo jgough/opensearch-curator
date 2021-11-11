@@ -1,7 +1,7 @@
 """Integration tests of the Close action class"""
 import os
 import logging
-import elasticsearch
+import opensearchpy
 import click
 from click import testing as clicktest
 import curator

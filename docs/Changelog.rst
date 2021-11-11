@@ -14,7 +14,7 @@ Changelog
 **New**
 
   * Add filter by size feature. #1612 (IndraGunawan)
-  * Update Elasticsearch client to 7.14.0
+  * Update OpenSearch client to 7.14.0
 
 **Security Fixes**
 
@@ -47,16 +47,16 @@ Changelog
 
 **New**
 
-  * Now using `elasticsearch-py` version 7.12.0
+  * Now using `opensearchpy` version 7.12.0
   * Adding testing for Python 3.9
   * Removing testing on Python 3.6
-  * Tested Elasticsearch versions now include 7.12.0, 7.11.2, 7.10.2, 7.9.3,
+  * Tested OpenSearch versions now include 7.12.0, 7.11.2, 7.10.2, 7.9.3,
     7.8.1, 6.8.15, 5.6.16
   * Changing `requirements.txt` as follows:
     - boto3-1.17.57
     - certifi-2020.12.5
     - click-7.1.2
-    - elasticsearch-7.12.0
+    - opensearch-7.12.0
     - pyyaml-5.4.1
     - requests-2.25.1
     - requests-aws4auth-1.0.1
@@ -66,7 +66,7 @@ Changelog
 
 **Bug Fixes**
 
-  * Alias integration tests needed updating for newer versions of Elasticsearch
+  * Alias integration tests needed updating for newer versions of OpenSearch
     that include ILM.
   * Click 7.0 now reports an exit code of `1` for schema mismatches where it
     yielded a `-1` in the past. Tests needed updating to correct for this.
@@ -111,8 +111,8 @@ Changelog
     away in the next major release. Moving forward, you should use ``username``
     and ``password``. This should work in ``curator``, ``curator_cli``, and
     ``es_repo_mgr``.
-  * Removed tests for all 5.x branches of Elasticsearch but the final (5.6).
-  * Added tests for missing 7.x branches of Elasticsearch
+  * Removed tests for all 5.x branches of OpenSearch but the final (5.6).
+  * Added tests for missing 7.x branches of OpenSearch
   * Remove tests for Python 3.5 
   * Fix hang of Shrink action in ES 7.x in #1528 (jclegras)
   * Add ``ecs`` as a ``logformat`` option in #1529 (m1keil)
@@ -123,12 +123,12 @@ Changelog
     the APIs are not changed (yet—-that comes in the next major release).
   * Dockerfile has been updated to produce a working version with Python 3.7
     and Curator 5.8.1
-  * Pin (for now) Elasticsearch Python module to 7.1.0. This will be updated
+  * Pin (for now) OpenSearch Python module to 7.1.0. This will be updated
     when an updated release of the module fixes the `cluster.state` API call
-    regression at https://github.com/elastic/elasticsearch-py/issues/1141
+    regression at https://github.com/elastic/opensearchpy/issues/1141
   * Fix ``client.tasks.get`` API call to be ``client.tasks.list`` when no index
     name is provided.  See
-    https://github.com/elastic/elasticsearch-py/issues/1110
+    https://github.com/elastic/opensearchpy/issues/1110
   * Pin some pip versions to allow urllib3 and boto to coexist. See #1562
     (sethmlarson).
 
@@ -154,13 +154,13 @@ Changelog
 
 **New**
 
-  * Require ``elasticsearch-py`` version 7.0.4
+  * Require ``opensearchpy`` version 7.0.4
   * Official support for Python 3.7 — In fact, the pre-built packages are built
     using Python 3.7 now.
   * Packages bundle OpenSSL 1.1.1c, removing the need for system OpenSSL
   * Certifi 2019.9.11 certificates included.
   * New client configuration option: api_key - used in the X-Api-key header in
-    requests to Elasticsearch when set, which may be required if ReadonlyREST
+    requests to OpenSearch when set, which may be required if ReadonlyREST
     plugin is configured to require api-key. Requested in #1409 (vetler)
   * Add ``skip_flush`` option to the ``close`` action. This should be useful
     when trying to close indices with unassigned shards (e.g. before restore).
@@ -174,7 +174,7 @@ Changelog
     error if the index to be created already exists. Raised by (breml) in
     #1352. (untergeek)
   * Add support for ``freeze`` and ``unfreeze`` indexes using curator. Requires
-    Elasticsearch version 6.6 or greater with xpack enabled. Requested in issue
+    OpenSearch version 6.6 or greater with xpack enabled. Requested in issue
     #1399 and rasied in PR #1454. (junmuz)
   * Allow the ``close`` action to ignore synced flush failures with the new
     ``ignore_sync_failures`` option.  Raised in #1248. (untergeek)
@@ -182,7 +182,7 @@ Changelog
 **Bug Fixes**
 
   * Fix kibana filter to match any and all indices starting with ``.kibana``.
-    This addresses #1363, and everyone else upgrading to Elasticsearch 7.x.
+    This addresses #1363, and everyone else upgrading to OpenSearch 7.x.
     Update documentation accordingly. (untergeek)
   * Fix reindex post-action checks. When the filters do not return documents
     to be reindexed, the post-action check to ensure the target index exists
@@ -218,7 +218,7 @@ Changelog
 **Documentation**
 
   * Grammar correction of ilm.asciidoc #1425 (SlavikCA)
-  * Updates to reflect changes to Elasticsearch 7 documentation #1426 and #1428
+  * Updates to reflect changes to OpenSearch 7 documentation #1426 and #1428
     (lcawl) and (jrodewig)
 
 5.7.6 (6 May 2019)
@@ -234,7 +234,7 @@ versions of ``urllib3`` and ``requests``. These have been addressed.
 
 **Bug Fixes**
 
-  * Allow aliases in Elasticsearch versions >= 6.5.0 to refer to more than one
+  * Allow aliases in OpenSearch versions >= 6.5.0 to refer to more than one
     index, if ``is_write_index`` is present and one index has it set to `True`.
     Requested in #1342 (untergeek)
 
@@ -286,9 +286,9 @@ We do not speak of 5.7.1
 
 **New**
 
-  * Support for ``elasticsearch-py`` 7.0.0 (untergeek)
-  * Support for Elasticsearch 7.0 #1371 (untergeek)
-  * TravisCI testing for Elasticsearch 6.5, 6.6, 6.7, and 7.0 (untergeek)
+  * Support for ``opensearchpy`` 7.0.0 (untergeek)
+  * Support for OpenSearch 7.0 #1371 (untergeek)
+  * TravisCI testing for OpenSearch 6.5, 6.6, 6.7, and 7.0 (untergeek)
   * Allow shrink action to use multiple data paths #1350 (IzekChen)
 
 **Bug Fixes**
@@ -313,7 +313,7 @@ We do not speak of 5.7.1
 
   * The ``empty`` filter has been exposed for general use.  This filter matches
     indices with no documents. (jrask) #1264
-  * Added tests for Elasticsearch 6.3 and 6.4 releases. (untergeek)
+  * Added tests for OpenSearch 6.3 and 6.4 releases. (untergeek)
   * Sort indices alphabetically before sorting by age.
     (tschroeder-zendesk) #1290
   * Add ``shards`` filtertype (cushind) #1298
@@ -352,7 +352,7 @@ raised in #1192
   * By default, filter out indices with ``index.lifecycle.name`` set.  This can
     be overridden with the option ``allow_ilm_indices`` with the caveat that
     you are on your own if there are conflicts. NOTE: The Index Lifecycle
-    Management feature will not appear in Elasticsearch until 6.4.0
+    Management feature will not appear in OpenSearch until 6.4.0
   * Removed some unused files from the repository.
 
 **Bug Fixes**
@@ -373,10 +373,10 @@ raised in #1192
     actions in the future.
   * Updated ``certifi`` dependency to ``2018.4.16``
   * Added ``six`` dependency
-  * Permit the use of versions 6.1 and greater of the ``elasticsearch`` python
+  * Permit the use of versions 6.1 and greater of the ``opensearch`` python
     module.  There are issues with SSL contexts in the 6.0 release that prevent
     Curator from being able to use this version.  Currently the requirement
-    version string is ``elasticsearch>=5.5.2,!=6.0.0,<7.0.0``
+    version string is ``opensearch>=5.5.2,!=6.0.0,<7.0.0``
   * Start of pylint cleanup, and use of `six` `string_types`. (untergeek)
 
 **Bug Fixes**
@@ -385,7 +385,7 @@ raised in #1192
     in an index filter. Fixed in #1206 (soenkeliebau)
   * Fix rollover _check_max_size() call. Reported in #1202 by @diranged
     (untergeek).
-  * Update tested versions of Elasticsearch. (untergeek).
+  * Update tested versions of OpenSearch. (untergeek).
   * Update setup.cfg to install dependencies during source install. (untergeek)
   * Fix reference to unset variable name in log output at
     https://github.com/elastic/curator/blob/v5.5.1/curator/actions.py#L2145
@@ -420,9 +420,9 @@ raised in #1192
     finished being relocated and it will not wait for the cluster to
     rebalance. #1129 (tschroeder-zendesk)
   * Work around for extremely large cluster states. #1142 (rewiko)
-  * Add CI tests for Elasticsearch versions 6.1 and 6.2 (untergeek)
-  * Add Elasticsearch datemath support for snapshot names #1078 (untergeek)
-  * Support ``max_size`` as a rollover condition for Elasticsearch versions
+  * Add CI tests for OpenSearch versions 6.1 and 6.2 (untergeek)
+  * Add OpenSearch datemath support for snapshot names #1078 (untergeek)
+  * Support ``max_size`` as a rollover condition for OpenSearch versions
     6.1.0 and up. #1140 (untergeek)
   * Skip indices with a document count of 0 when using ``source: field_stats``
     to do ``age`` or ``period`` type filtering. #1130 (untergeek)
@@ -459,7 +459,7 @@ raised in #1192
   * Correct a misunderstanding about the nature of rollover conditions.
     #1144 (untergeek)
   * Correct links to the field_stats API, as it is non-existent in
-    Elasticsearch 6.x. (untergeek)
+    OpenSearch 6.x. (untergeek)
   * Add a warning about using forcemerge on active indices.
     #1153 (untergeek)
   * Fix select URLs in pip installation from source to not be 404
@@ -497,17 +497,17 @@ raised in #1192
 
 **Announcement**
 
-  * Support for Elasticsearch 6.0!!! Yes!
+  * Support for OpenSearch 6.0!!! Yes!
 
 **New Features**
 
-  * The ``field_stats`` API may be gone from Elasticsearch, but its utility
+  * The ``field_stats`` API may be gone from OpenSearch, but its utility
     cannot be denied.  And so, Curator has replaced the ``field_stats`` API
     call with a small aggregation query.  This will be perhaps a bit more
     costly in performance terms, as this small aggregation query must be made
     to each index in sequence, rather than as a one-shot call, like the
     ``field_stats`` API call.  But the benefit will remain available, and
-    it's the only major API that did not persevere between Elasticsearch 5.x
+    it's the only major API that did not persevere between OpenSearch 5.x
     and 6.x that was needed by Curator.
 
 5.3.0 (31 October 2017)
@@ -589,7 +589,7 @@ raised in #1192
 
 **Errata**
 
-  * An update to Elasticsearch 5.5.0 changes the behavior of
+  * An update to OpenSearch 5.5.0 changes the behavior of
     ``filter_by_aliases``, differing from previous 5.x versions.
 
     If a list of aliases is provided, indices must appear in `all` listed
@@ -609,7 +609,7 @@ raised in #1192
 
   * Support date math in reindex operations better.  It did work previously,
     but would report failure because the test was looking for the index with
-    that name from a list of indices, rather than letting Elasticsearch do
+    that name from a list of indices, rather than letting OpenSearch do
     the date math.  Reported by DPattee in #1008 (untergeek)
   * Under rare circumstances, snapshot delete (or create) actions could fail,
     even when there were no snapshots in state ``IN_PROGRESS``.  This was
@@ -621,7 +621,7 @@ raised in #1192
     patterns.  This has been rectified, and an integration test added to
     satisfy this.  Reported in #989 (untergeek)
   * Make Curator report the Curator version, and not just reiterate the
-    elasticsearch version when reporting version incompatibilities. Reported
+    opensearch version when reporting version incompatibilities. Reported
     in #992. (untergeek)
   * Fix repository/snapshot name logging issue. #1005 (jpcarey)
   * Fix Windows build issue #1014 (untergeek)
@@ -666,7 +666,7 @@ raised in #1192
 
 **General**
 
-  * elasticsearch-py dependency bumped to 5.4.0
+  * opensearchpy dependency bumped to 5.4.0
   * Added mock dependency due to isinstance and testing requirements
   * AWS ES 5.3 officially supports Curator now.  Documentation has been updated
     to reflect this.
@@ -717,7 +717,7 @@ raised in #1192
 **Bug Fixes**
 
   * Fixed default values for ``include_global_state`` on the restore
-    action to be in line with defaults in Elasticsearch 5.3
+    action to be in line with defaults in OpenSearch 5.3
 
 **Documentation**
 
@@ -734,7 +734,7 @@ The full feature set of 5.0 (including alpha releases) is included here.
 
   * Reindex is here! The new reindex action has a ton of flexibility. You
     can even reindex from remote locations, so long as the remote cluster is
-    Elasticsearch 1.4 or newer.
+    OpenSearch 1.4 or newer.
   * Added the ``period`` filter (#733). This allows you to select indices
     or snapshots, based on whether they fit within a period of hours, days,
     weeks, months, or years.
@@ -746,10 +746,10 @@ The full feature set of 5.0 (including alpha releases) is included here.
     operations, like snapshot and restore.
 
     NOTE: There is one caveat: forceMerge does not support this, per the
-    Elasticsearch API. A forceMerge call will hold the client until complete,
+    OpenSearch API. A forceMerge call will hold the client until complete,
     or the client times out.  There is no clean way around this that I can
     discern.
-  * Elasticsearch date math naming is supported and documented for the
+  * OpenSearch date math naming is supported and documented for the
     ``create_index`` action.  An integration test is included for validation.
   * Allow allocation action to unset a key/value pair by using an empty value.
     Requested in #906. (untergeek)
@@ -764,7 +764,7 @@ The full feature set of 5.0 (including alpha releases) is included here.
 
   * Bumped ``click`` (python module) version dependency to 6.7
   * Bumped ``urllib3`` (python module) version dependency to 1.20
-  * Bumped ``elasticsearch`` (python module) version dependency to 5.3
+  * Bumped ``opensearch`` (python module) version dependency to 5.3
   * Refactored a ton of code to be cleaner and hopefully more consistent.
 
 **Bug Fixes**
@@ -775,7 +775,7 @@ The full feature set of 5.0 (including alpha releases) is included here.
     of returning `False` if nothing is found. #761 (untergeek)
   * Check if an index is in an alias before attempting to delete it from the
     alias.  Issue raised in #887. (untergeek)
-  * Fix allocation issues when using Elasticsearch 5.1+. Issue raised in #871
+  * Fix allocation issues when using OpenSearch 5.1+. Issue raised in #871
     (untergeek)
 
 **Documentation**
@@ -810,7 +810,7 @@ production! There `will` be many more changes before 5.0.0 is released.
 
   * Check if an index is in an alias before attempting to delete it from the
     alias.  Issue raised in #887. (untergeek)
-  * Fix allocation issues when using Elasticsearch 5.1+. Issue raised in #871
+  * Fix allocation issues when using OpenSearch 5.1+. Issue raised in #871
     (untergeek)
 
 **Documentation**
@@ -823,9 +823,9 @@ production! There `will` be many more changes before 5.0.0 is released.
 
 **General**
 
-  * Update Curator to use version 5.1 of the ``elasticsearch-py`` python
+  * Update Curator to use version 5.1 of the ``opensearchpy`` python
     module. With this change, there will be no reverse compatibility with
-    Elasticsearch 2.x.  For 2.x versions, continue to use the 4.x branches of
+    OpenSearch 2.x.  For 2.x versions, continue to use the 4.x branches of
     Curator.
   * Tests were updated to reflect the changes in API calls, which were minimal.
   * Remove "official" support for Python 2.6. If you must use Curator on a
@@ -958,7 +958,7 @@ certificates.  This has now been remedied.
 **General**
 
   * Update testing to the most recent versions.
-  * Lock elasticsearch-py module version at >= 2.4.0 and <= 3.0.0.  There are
+  * Lock opensearchpy module version at >= 2.4.0 and <= 3.0.0.  There are
     API changes in the 5.0 release that cause tests to fail.
 
 **Bug Fixes**
@@ -1000,7 +1000,7 @@ improves documentation and includes new linux binary packages.
   * The only bug that can be called a bug is actually a stray ``.exe`` suffix
     in the binary package creation section (cx_freeze) of ``setup.py``.  The
     Windows binaries should have ``.exe`` extensions, but not unix variants.
-  * Elasticsearch 5.0.0-beta1 testing revealed that a document ID is required
+  * OpenSearch 5.0.0-beta1 testing revealed that a document ID is required
     during document creation in tests.  This has been fixed, and a redundant
     bit of code in the forcemerge integration test was removed.
 
@@ -1058,7 +1058,7 @@ improves documentation and includes new linux binary packages.
 **General**
 
   * New requirement! ``voluptuous`` Python schema validation module
-  * Requirement version bump:  Now requires ``elasticsearch-py`` 2.4.0
+  * Requirement version bump:  Now requires ``opensearchpy`` 2.4.0
 
 **Bug Fixes**
 
@@ -1068,7 +1068,7 @@ improves documentation and includes new linux binary packages.
 
 **Documentation**
 
-  * Add information to FAQ regarding indices created before Elasticsearch 1.4.
+  * Add information to FAQ regarding indices created before OpenSearch 1.4.
     Merged in #747
 
 4.0.6 (15 August 2016)
@@ -1077,7 +1077,7 @@ improves documentation and includes new linux binary packages.
 **Bug Fixes**
 
   * Update old calls used with ES 1.x to reflect changes in 2.x+. This was
-    necessary to work with Elasticsearch 5.0.0-alpha5.
+    necessary to work with OpenSearch 5.0.0-alpha5.
     Fixed in #728 (untergeek)
 
 **Doc Fixes**
@@ -1139,7 +1139,7 @@ improves documentation and includes new linux binary packages.
   * Reduced logging verbosity by making most messages debug level. #684
     (untergeek)
   * Fixed log whitelist behavior (and switched to blacklisting instead).
-    Default behavior will now filter traffic from the ``elasticsearch`` and
+    Default behavior will now filter traffic from the ``opensearch`` and
     ``urllib3`` modules.
   * Fix Travis CI testing to accept some skipped tests, as needed. #695
     (untergeek)
@@ -1161,7 +1161,7 @@ improves documentation and includes new linux binary packages.
   * Reduced logging verbosity by making most messages debug level. #684
     (untergeek)
   * Fixed log whitelist behavior (and switched to blacklisting instead).
-    Default behavior will now filter traffic from the ``elasticsearch`` and
+    Default behavior will now filter traffic from the ``opensearch`` and
     ``urllib3`` modules.
   * Fix Travis CI testing to accept some skipped tests, as needed. #695
     (untergeek)
@@ -1213,7 +1213,7 @@ It's official!  Curator 4.0.0 is released!
   * State of indices pulled and stored in `IndexList` instance.  Fewer API
     calls required to serially test for open/close, `size_in_bytes`, etc.
   * Filter by space now allows sorting by age!
-  * Experimental! Use AWS IAM credentials to sign requests to Elasticsearch.
+  * Experimental! Use AWS IAM credentials to sign requests to OpenSearch.
     This requires the end user to *manually* install the `requests_aws4auth`
     python module.
   * Optionally delete aliases from indices before closing.
@@ -1290,7 +1290,7 @@ bug fixes done during the alphas.
   * State of indices pulled and stored in `IndexList` instance.  Fewer API
     calls required to serially test for open/close, `size_in_bytes`, etc.
   * Filter by space now allows sorting by age!
-  * Experimental! Use AWS IAM credentials to sign requests to Elasticsearch.
+  * Experimental! Use AWS IAM credentials to sign requests to OpenSearch.
     This requires the end user to *manually* install the `requests_aws4auth`
     python module.
   * Optionally delete aliases from indices before closing.
@@ -1372,7 +1372,7 @@ bug fixes done during the alphas.
 
 **Bug Fixes**
 
-  * Fix to use `optimize` with versions of Elasticsearch < 5.0
+  * Fix to use `optimize` with versions of OpenSearch < 5.0
   * Fix missing setting in testvars
 
 
@@ -1450,7 +1450,7 @@ It's time for Curator 4.0 alpha!
   * State of indices pulled and stored in `IndexList` instance.  Fewer API
     calls required to serially test for open/close, `size_in_bytes`, etc.
   * Filter by space now allows sorting by age!
-  * Experimental! Use AWS IAM credentials to sign requests to Elasticsearch.
+  * Experimental! Use AWS IAM credentials to sign requests to OpenSearch.
     This requires the end user to *manually* install the `requests_aws4auth`
     python module.
 
@@ -1477,7 +1477,7 @@ It's time for Curator 4.0 alpha!
 **Bug fixes**
 
   * Disallow users from creating snapshots with upper-case letters, which is
-    not permitted by Elasticsearch. #562 (untergeek)
+    not permitted by OpenSearch. #562 (untergeek)
   * Remove `print()` command from ``setup.py`` as it causes issues with
     command-line retrieval of ``--url``, etc. #568 (thib-ack)
   * Remove unnecessary argument from `build_filter()` #530 (zzugg)
@@ -1511,7 +1511,7 @@ It's time for Curator 4.0 alpha!
     #519 (untergeek)
   * Improve logging to show time delay between optimize runs, if selected.
     #525 (untergeek)
-  * Allow elasticsearch-py module versions through 2.3.0 (a presumption at this
+  * Allow opensearchpy module versions through 2.3.0 (a presumption at this
     point) #524 (untergeek)
   * Improve logging in snapshot api method to reveal when a repository appears
     to be missing. Reported in #551 (untergeek)
@@ -1526,19 +1526,19 @@ It's time for Curator 4.0 alpha!
 
 **General**
 
-  * API change in elasticsearch-py 1.7.0 prevented alias operations.  Fixed in
+  * API change in opensearchpy 1.7.0 prevented alias operations.  Fixed in
     #486 (HonzaKral)
   * During index selection you can now select only closed indices with
     ``--closed-only``. Does not impact ``--all-indices`` Reported in #476.
     Fixed in #487 (Basster)
-  * API Changes in Elasticsearch 2.0.0 required some refactoring.  All tests
+  * API Changes in OpenSearch 2.0.0 required some refactoring.  All tests
     pass for ES versions 1.0.3 through 2.0.0-rc1.  Fixed in #488 (untergeek)
   * es_repo_mgr now has access to the same SSL options from #462.
     #489 (untergeek)
   * Logging improvements requested in #475. (untergeek)
   * Added ``--quiet`` flag. #494 (untergeek)
-  * Fixed ``index_closed`` to work with AWS Elasticsearch. #499 (univerio)
-  * Acceptable versions of Elasticsearch-py module are 1.8.0 up to
+  * Fixed ``index_closed`` to work with AWS OpenSearch. #499 (univerio)
+  * Acceptable versions of OpenSearch-py module are 1.8.0 up to
     2.1.0 (untergeek)
 
 3.3.0 (31 August 2015)
@@ -1548,7 +1548,7 @@ It's time for Curator 4.0 alpha!
 
   * Curator is tested in Jenkins.  Each commit to the master branch is tested
     with both Python versions 2.7.6 and 3.4.0 against each of the following
-    Elasticsearch versions:
+    OpenSearch versions:
     * 1.7_nightly
     * 1.6_nightly
     * 1.7.0
@@ -1567,11 +1567,11 @@ It's time for Curator 4.0 alpha!
     the existing default ``require`` type. Add ``--type`` to the allocation
     command to specify the type. #443 (steffo)
 
-  * Bump elasticsearch python module dependency to 1.6.0+ to enable
+  * Bump opensearch python module dependency to 1.6.0+ to enable
     synced_flush API call. Reported in #447 (untergeek)
 
   * Add SSL features, ``--ssl-no-validate`` and ``certificate`` to provide
-    other ways to validate SSL connections to Elasticsearch. #436 (untergeek)
+    other ways to validate SSL connections to OpenSearch. #436 (untergeek)
 
 **Bug fixes**
 
@@ -1634,7 +1634,7 @@ It's time for Curator 4.0 alpha!
 
 **New!**
 
-  * Added support to manually seal, or perform a [synced flush](http://www.elastic.co/guide/en/elasticsearch/reference/current/indices-synced-flush.html)
+  * Added support to manually seal, or perform a [synced flush](http://www.elastic.co/guide/en/opensearch/reference/current/indices-synced-flush.html)
     on indices with the ``seal`` command. #394 (untergeek)
   * Added *experimental* support for SSL certificate validation.  In order for
     this to work, you must install the ``certifi`` python module:
@@ -1661,13 +1661,13 @@ It's time for Curator 4.0 alpha!
 
  * In rare cases, ``*`` wildcard would not expand.  Replaced with _all.
    Reported in #399 (untergeek)
- * Beginning with Elasticsearch 1.6, closed indices cannot have their replica
+ * Beginning with OpenSearch 1.6, closed indices cannot have their replica
    count altered.  Attempting to do so results in this error:
-   ``org.elasticsearch.ElasticsearchIllegalArgumentException: Can't update
+   ``org.opensearchpy.OpenSearchIllegalArgumentException: Can't update
    [index.number_of_replicas] on closed indices [[test_index]] - can leave
    index in an unopenable state``
    As a result, the ``change_replicas`` method has been updated to prune closed
-   indices.  This change will apply to all versions of Elasticsearch.
+   indices.  This change will apply to all versions of OpenSearch.
    Reported in #400 (untergeek)
  * Fixed es_repo_mgr repository creation verification error. Reported in #389
    (untergeek)
@@ -1721,7 +1721,7 @@ Code coverage: 99%
 **General**
 
  * Documentation for the CLI converted to Asciidoc and moved to
-   http://www.elastic.co/guide/en/elasticsearch/client/curator/current/index.html
+   http://www.elastic.co/guide/en/opensearch/client/curator/current/index.html
  * Improved logging, and refactored a few methods to help with this.
  * Dry-run output is now more like v2, with the index or snapshot in the log
    line, along with the command.  Several tests needed refactoring with this
@@ -1783,7 +1783,7 @@ Props to @SegFaultAX for pointing this out.
  * Refactored to show `--dry-run` info for `--disk-space` calls. Reported in
    #290 (untergeek)
  * Added list chunking so acting on huge lists of indices won't result in a URL
-   bigger than 4096 bytes (Elasticsearch's default limit.)  Reported in
+   bigger than 4096 bytes (OpenSearch's default limit.)  Reported in
    https://github.com/elastic/curator/issues/245#issuecomment-77916081
  * Refactored `to_csv()` method to be simpler.
  * Added and removed tests according to changes.  Code coverage still at 99%
@@ -1801,7 +1801,7 @@ Because 3.0 is a major point release, there have been some major changes to
 both the API as well as the CLI arguments and structure.
 
 Be sure to read the updated command-line specific docs in the
-[wiki](https://github.com/elasticsearch/curator/wiki) and change your
+[wiki](https://github.com/opensearch/curator/wiki) and change your
 command-line arguments accordingly.
 
 The API docs are still at http://curator.readthedocs.io.  Be sure to read the
@@ -1847,7 +1847,7 @@ latest docs, or select the docs for 3.0.0.
 
  * Don't accidentally delete ``.kibana`` index. #261 (malagoli)
  * Fix segment count for empty indices. #265 (untergeek)
- * Change bloom filter cutoff Elasticsearch version to 1.4. Reported in #267
+ * Change bloom filter cutoff OpenSearch version to 1.4. Reported in #267
    (untergeek)
 
 3.0.0rc1 (5 March 2015)
@@ -1897,7 +1897,7 @@ soon.
 
  * Don't accidentally delete ``.kibana`` index. #261 (malagoli)
  * Fix segment count for empty indices. #265 (untergeek)
- * Change bloom filter cutoff Elasticsearch version to 1.4. Reported in #267
+ * Change bloom filter cutoff OpenSearch version to 1.4. Reported in #267
    (untergeek)
 
 
@@ -1970,7 +1970,7 @@ testing exists, right?), and fixed a few of them.
 
  * Don't accidentally delete ``.kibana`` index. #261 (malagoli)
  * Fix segment count for empty indices. #265 (untergeek)
- * Change bloom filter cutoff Elasticsearch version to 1.4. Reported in
+ * Change bloom filter cutoff OpenSearch version to 1.4. Reported in
    #267 (untergeek)
 
 
@@ -2020,7 +2020,7 @@ testing exists, right?), and fixed a few of them.
  * Use json.dumps() to escape exceptions. Reported in #210 (untergeek)
  * Check if index is closed before adding to alias.  Reported in #214 (bt5e)
  * No longer force-install argparse if pre-installed #216 (whyscream)
- * Bloom filters have been removed from Elasticsearch 1.5.0. Update methods
+ * Bloom filters have been removed from OpenSearch 1.5.0. Update methods
    and tests to act accordingly. #233 (untergeek)
 
 2.0.2 (8 October 2014)
@@ -2043,7 +2043,7 @@ testing exists, right?), and fixed a few of them.
 
 **General**
 
- * New! Separation of Elasticsearch Curator Python API and
+ * New! Separation of OpenSearch Curator Python API and
    curator_script.py (untergeek)
  * New! ``--delay`` after optimize to allow cluster to quiesce #131 (untergeek)
  * New! ``--suffix`` option in addition to ``--prefix`` #136 (untergeek)
@@ -2149,7 +2149,7 @@ Errata
 
 **General**
 
- * compatible with ``elasticsearch-py`` 1.0 and Elasticsearch 1.0 (honzakral)
+ * compatible with ``opensearchpy`` 1.0 and OpenSearch 1.0 (honzakral)
  * Lots of tests! (honzakral)
  * Streamline code for 1.0 ES versions (honzakral)
 
@@ -2165,7 +2165,7 @@ Errata
  * Documentation fixes #38 (dharrigan)
  * Add support for HTTPS URI scheme and ``optparse`` compatibility for Python
    2.6 (gelim)
- * Add elasticsearch module version checking for future compatibility checks
+ * Add opensearch module version checking for future compatibility checks
    (untergeek)
 
 0.6.1 (08 Feb 2014)
@@ -2208,8 +2208,8 @@ Errata
  * Fix ``can_bloom`` to compare numbers (HonzaKral)
  * Switched ``find_expired_indices()`` to use ``datetime`` and ``timedelta``
  * Do not try and catch unrecoverable exceptions. (HonzaKral)
- * Future proofing the use of the elasticsearch client (i.e. work with version
-   1.0+ of Elasticsearch) (HonzaKral)
+ * Future proofing the use of the opensearch client (i.e. work with version
+   1.0+ of OpenSearch) (HonzaKral)
    Needs more testing, but should work.
  * Add tests for these scenarios (HonzaKral)
 
@@ -2236,7 +2236,7 @@ Errata
  * First version logged in ``CHANGELOG``
  * new ``--disable-bloom-days`` feature requires 0.90.9+
 
-   http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/index-modules-codec.html#bloom-postings
+   http://www.opensearchpy.org/guide/en/opensearch/reference/current/index-modules-codec.html#bloom-postings
 
    This can save a lot of heap space on cold indexes (i.e. not actively
    indexing documents)

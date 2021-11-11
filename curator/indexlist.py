@@ -3,7 +3,7 @@ import time
 import re
 import itertools
 import logging
-from elasticsearch.exceptions import NotFoundError, TransportError
+from opensearchpy.exceptions import NotFoundError, TransportError
 from curator import exceptions, utils
 from curator.defaults import settings
 from curator.validators import SchemaCheck, filters
@@ -12,7 +12,7 @@ class IndexList(object):
     def __init__(self, client):
         utils.verify_client_object(client)
         self.loggit = logging.getLogger('curator.indexlist')
-        #: An Elasticsearch Client object
+        #: An OpenSearch Client object
         #: Also accessible as an instance variable.
         self.client = client
         #: Instance variable.
@@ -206,7 +206,7 @@ class IndexList(object):
                     if 'creation_date' not in wl['settings']['index']:
                         self.loggit.warn(
                             'Index: {0} has no "creation_date"! This implies '
-                            'that the index predates Elasticsearch v1.4. For '
+                            'that the index predates OpenSearch v1.4. For '
                             'safety, this index will be removed from the '
                             'actionable list.'.format(index)
                         )
@@ -295,7 +295,7 @@ class IndexList(object):
         as determined by the min and max aggregated values of `field`
 
         :arg field: The field with the date value.  The field must be mapped in
-            elasticsearch as a date datatype.  Default: ``@timestamp``
+            opensearch as a date datatype.  Default: ``@timestamp``
         """
         self.loggit.debug(
             'Cannot query closed indices. Omitting any closed indices.'
@@ -825,9 +825,9 @@ class IndexList(object):
         Match indices which are associated with the alias or list of aliases
         identified by `aliases`.
 
-        An update to Elasticsearch 5.5.0 changes the behavior of this from
+        An update to OpenSearch 5.5.0 changes the behavior of this from
         previous 5.x versions:
-        https://www.elastic.co/guide/en/elasticsearch/reference/5.5/breaking-changes-5.5.html#breaking_55_rest_changes
+        https://www.elastic.co/guide/en/opensearch/reference/5.5/breaking-changes-5.5.html#breaking_55_rest_changes
 
         What this means is that indices must appear in all aliases in list
         `aliases` or a 404 error will result, leading to no indices being

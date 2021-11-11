@@ -1,4 +1,4 @@
-import elasticsearch
+import opensearchpy
 import curator
 import os
 import time
@@ -76,7 +76,7 @@ class TestActionFileRestore(CuratorTestCase):
         restored_indices = sorted(curator.get_indices(self.client))
         self.assertEqual(indices, restored_indices)
         # The test runs so fast that it tries to execute the cleanup step
-        # and delete the repository before Elasticsearch is actually ready
+        # and delete the repository before OpenSearch is actually ready
         time.sleep(0.5)
     def test_restore_with_rename(self):
         indices = []
@@ -128,7 +128,7 @@ class TestActionFileRestore(CuratorTestCase):
             restored_indices
         )
         # The test runs so fast that it tries to execute the cleanup step
-        # and delete the repository before Elasticsearch is actually ready
+        # and delete the repository before OpenSearch is actually ready
         time.sleep(1)
     def test_restore_wildcard(self):
         indices = []
@@ -180,7 +180,7 @@ class TestActionFileRestore(CuratorTestCase):
         restored_indices = sorted(curator.get_indices(self.client))
         self.assertEqual(my_indices, restored_indices)
         # The test runs so fast that it tries to execute the cleanup step
-        # and delete the repository before Elasticsearch is actually ready
+        # and delete the repository before OpenSearch is actually ready
         time.sleep(0.5)
 
 class TestCLIRestore(CuratorTestCase):
@@ -214,5 +214,5 @@ class TestCLIRestore(CuratorTestCase):
         restored_indices = sorted(curator.get_indices(self.client))
         self.assertEqual(indices, restored_indices)
         # The test runs so fast that it tries to execute the cleanup step
-        # and delete the repository before Elasticsearch is actually ready
+        # and delete the repository before OpenSearch is actually ready
         time.sleep(0.5)

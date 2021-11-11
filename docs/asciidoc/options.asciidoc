@@ -358,7 +358,7 @@ options:
 
 === <<restore,restore>>
 
-See the {ref}/snapshots-restore-snapshot.html#change-index-settings-during-restore[official Elasticsearch Documentation].
+See the {ref}/snapshots-restore-snapshot.html#change-index-settings-during-restore[official OpenSearch Documentation].
 
 [source,yaml]
 -------------
@@ -412,7 +412,7 @@ options:
 
 === <<shrink,shrink>>
 
-NOTE: https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-shrink-index.html#_shrinking_an_index[Only `settings` and `aliases` are acceptable] when used in <<shrink,shrink>>.
+NOTE: https://www.elastic.co/guide/en/opensearch/reference/current/indices-shrink-index.html#_shrinking_an_index[Only `settings` and `aliases` are acceptable] when used in <<shrink,shrink>>.
 
 [source,yaml]
 -------------
@@ -557,12 +557,12 @@ filters:
 
 When the `ignore_unavailable` option is `False` and an index is missing,
 or if the request is to apply a
-https://www.elastic.co/guide/en/elasticsearch/reference/5.4/index-modules.html#_static_index_settings[static]
+https://www.elastic.co/guide/en/opensearch/reference/5.4/index-modules.html#_static_index_settings[static]
 setting and the index is opened, the index setting request will fail.
 The `ignore_unavailable` option allows these indices to be skipped, when set to
 `True`.
 
-NOTE: https://www.elastic.co/guide/en/elasticsearch/reference/5.4/index-modules.html#dynamic-index-settings[Dynamic]
+NOTE: https://www.elastic.co/guide/en/opensearch/reference/5.4/index-modules.html#dynamic-index-settings[Dynamic]
 index settings can be applied to either open or closed indices.
 
 [[option_include_aliases]]
@@ -593,7 +593,7 @@ actions:
 
 This setting must be either `True` or `False`.
 
-The value of this setting determines whether Elasticsearch should include index
+The value of this setting determines whether OpenSearch should include index
 aliases when restoring the snapshot.
 
 The default value of this setting is `False`
@@ -606,7 +606,7 @@ NOTE: This setting is used by the <<snapshot,snapshot>> and
 
 This setting must be either `True` or `False`.
 
-The value of this setting determines whether Elasticsearch should include the
+The value of this setting determines whether OpenSearch should include the
 global cluster state with the snapshot or restore.
 
 When performing a <<snapshot,snapshot>>, the default value of this setting is
@@ -717,7 +717,7 @@ For example, you might have set
 node.tag: myvalue
 -----------
 
-in your `elasticsearch.yml` file for one or more of your nodes.  To match
+in your `opensearchpy.yml` file for one or more of your nodes.  To match
 allocation in this case, set key to `tag`.
 
 These special attributes are also supported:
@@ -815,7 +815,7 @@ NOTE: At least one of <<option_max_age,max_age>>, <<option_max_docs,max_docs>>,
 `conditions:` for the <<rollover,Rollover>> action.
 
 The maximum approximate size an index is allowed to be before triggering a
-rollover.  Sizes must use Elasticsearch approved
+rollover.  Sizes must use OpenSearch approved
 {ref}/common-options.html#byte-units[byte units]. It _must_ be nested under
 `conditions:` There is no default value.  If this condition is specified, it
 must have a value, or Curator will generate an error.
@@ -1114,7 +1114,7 @@ options:
   # ...
 -------------
 
-or use Elasticsearch {ref}/date-math-index-names.html[date math]
+or use OpenSearch {ref}/date-math-index-names.html[date math]
 
 [source,yaml]
 -------------
@@ -1544,7 +1544,7 @@ NOTE: This option is only used by the <<reindex,Reindex action>> when performing
 a remote reindex operation.
 
 This setting allows the use of a specified CA certificate file to validate the
-SSL certificate used by Elasticsearch.
+SSL certificate used by OpenSearch.
 
 There is no default.
 
@@ -1582,7 +1582,7 @@ actions:
 -------------
 
 Allows the use of a specified SSL client cert file to authenticate to
-Elasticsearch. The file may contain both an SSL client certificate and an SSL
+OpenSearch. The file may contain both an SSL client certificate and an SSL
 key, in which case <<client_key,client_key>> is not used. If specifying
 `client_cert`, and the file specified does not also contain the key, use
 <<client_key,client_key>> to specify the file containing the SSL key. The file
@@ -1623,7 +1623,7 @@ actions:
 -------------
 
 Allows the use of a specified SSL client key file to authenticate to
-Elasticsearch. If using <<client_cert,client_cert>> and the file specified does
+OpenSearch. If using <<client_cert,client_cert>> and the file specified does
 not also contain the key, use `client_key` to specify the file containing the
 SSL key. The key file must be an unencrypted key in PEM format.
 
@@ -1702,7 +1702,7 @@ actions:
 -------------
 
 
-If access to your Elasticsearch instance is protected by SSL encryption, you may
+If access to your OpenSearch instance is protected by SSL encryption, you may
 set `ssl_no_validate` to `True` to disable SSL certificate verification.
 
 Valid use cases for doing so include the use of self-signed certificates that
@@ -1745,11 +1745,11 @@ actions:
     - filtertype: none
 -------------
 
-In some cases you may be obliged to connect to a remote Elasticsearch cluster
+In some cases you may be obliged to connect to a remote OpenSearch cluster
 through a proxy of some kind. There may be a URL prefix before the API URI
-items, e.g. http://example.com/elasticsearch/ as opposed to
+items, e.g. http://example.com/opensearch/ as opposed to
 http://localhost:9200. In such a case, set the `remote_url_prefix` to the
-appropriate value, 'elasticsearch' in this example.
+appropriate value, 'opensearch' in this example.
 
 The default is an empty string.
 
@@ -1761,7 +1761,7 @@ The default is an empty string.
 NOTE: This setting is only used by the <<restore,restore>> action.
 
 [TIP]
-.from the Elasticsearch documentation
+.from the OpenSearch documentation
 ======================================
 The <<option_rename_pattern,rename_pattern>> and
 <<option_rename_replacement,rename_replacement>> options can be also used to
@@ -1798,7 +1798,7 @@ actions:
     - filtertype: ...
 -------------
 
-In this configuration, Elasticsearch will capture whatever appears after `index`
+In this configuration, OpenSearch will capture whatever appears after `index`
 and put it after `restored_index`.  For example, if I was restoring
 `index-2017.03.01`, the resulting index would be renamed to
 `restored_index-2017.03.01`.
@@ -1813,7 +1813,7 @@ There is no default value.
 NOTE: This setting is only used by the <<restore, restore>> action.
 
 [TIP]
-.From the Elasticsearch documentation
+.From the OpenSearch documentation
 ======================================
 The <<option_rename_pattern,rename_pattern>> and
 <<option_rename_replacement,rename_replacement>> options can be also used to
@@ -1850,7 +1850,7 @@ actions:
     - filtertype: ...
 -------------
 
-In this configuration, Elasticsearch will capture whatever appears after `index`
+In this configuration, OpenSearch will capture whatever appears after `index`
 and put it after `restored_index`.  For example, if I was restoring
 `index-2017.03.01`, the resulting index would be renamed to
 `restored_index-2017.03.01`.
@@ -1947,7 +1947,7 @@ NOTE: This setting is only used by the <<reindex,reindex>> action.
 === Manual index selection
 
 The `request_body` option is the heart of the reindex action. In here, using
-YAML syntax, you recreate the body sent to Elasticsearch as described in
+YAML syntax, you recreate the body sent to OpenSearch as described in
 {ref}/docs-reindex.html[the official documentation.]  You can manually select
 indices as with this example:
 
@@ -2053,23 +2053,23 @@ IMPORTANT: You _must_ set at least a <<filtertype_none,none>> filter, or the
 Curator will create a connection to the host specified as the `host` key in the
 above example.  It will determine which port to connect to, and whether to use
 SSL by parsing the URL entered there.  Because this `host` is specifically used
-by Elasticsearch, and Curator is making a separate connection, it is important
-to ensure that both Curator _and_ your Elasticsearch cluster have access to the
+by OpenSearch, and Curator is making a separate connection, it is important
+to ensure that both Curator _and_ your OpenSearch cluster have access to the
 remote host.
 
 If you do not whitelist the remote cluster, you will not be able to reindex.
-This can be done by adding the following line to your `elasticsearch.yml` file:
+This can be done by adding the following line to your `opensearchpy.yml` file:
 
 [source,yaml]
 -------------
 reindex.remote.whitelist: remote_host_or_IP1:9200, remote_host_or_IP2:9200
 -------------
 
-or by adding this flag to the command-line when starting Elasticsearch:
+or by adding this flag to the command-line when starting OpenSearch:
 
 [source,sh]
 -------------
-bin/elasticsearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
+bin/opensearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
 -------------
 
 Of course, be sure to substitute the correct host, IP, or port.
@@ -2125,23 +2125,23 @@ IMPORTANT: Even though you are reindexing from remote, you _must_ set at least a
 Curator will create a connection to the host specified as the `host` key in the
 above example.  It will determine which port to connect to, and whether to use
 SSL by parsing the URL entered there.  Because this `host` is specifically used
-by Elasticsearch, and Curator is making a separate connection, it is important
-to ensure that both Curator _and_ your Elasticsearch cluster have access to the
+by OpenSearch, and Curator is making a separate connection, it is important
+to ensure that both Curator _and_ your OpenSearch cluster have access to the
 remote host.
 
 If you do not whitelist the remote cluster, you will not be able to reindex.
-This can be done by adding the following line to your `elasticsearch.yml` file:
+This can be done by adding the following line to your `opensearchpy.yml` file:
 
 [source,yaml]
 -------------
 reindex.remote.whitelist: remote_host_or_IP1:9200, remote_host_or_IP2:9200
 -------------
 
-or by adding this flag to the command-line when starting Elasticsearch:
+or by adding this flag to the command-line when starting OpenSearch:
 
 [source,sh]
 -------------
-bin/elasticsearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
+bin/opensearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
 -------------
 
 Of course, be sure to substitute the correct host, IP, or port.
@@ -2222,23 +2222,23 @@ IMPORTANT: Even though you are reindexing from remote, you _must_ set at least a
 Curator will create a connection to the host specified as the `host` key in the
 above example.  It will determine which port to connect to, and whether to use
 SSL by parsing the URL entered there.  Because this `host` is specifically used
-by Elasticsearch, and Curator is making a separate connection, it is important
-to ensure that both Curator _and_ your Elasticsearch cluster have access to the
+by OpenSearch, and Curator is making a separate connection, it is important
+to ensure that both Curator _and_ your OpenSearch cluster have access to the
 remote host.
 
 If you do not whitelist the remote cluster, you will not be able to reindex.
-This can be done by adding the following line to your `elasticsearch.yml` file:
+This can be done by adding the following line to your `opensearchpy.yml` file:
 
 [source,yaml]
 -------------
 reindex.remote.whitelist: remote_host_or_IP1:9200, remote_host_or_IP2:9200
 -------------
 
-or by adding this flag to the command-line when starting Elasticsearch:
+or by adding this flag to the command-line when starting OpenSearch:
 
 [source,sh]
 -------------
-bin/elasticsearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
+bin/opensearch -Edefault.reindex.remote.whitelist="remote_host_or_IP:9200"
 -------------
 
 Of course, be sure to substitute the correct host, IP, or port.
@@ -2396,7 +2396,7 @@ filters:
 
 This setting is required.  There is no default value.
 
-The value of this setting must be the valid name of a node in your Elasticsearch cluster,
+The value of this setting must be the valid name of a node in your OpenSearch cluster,
 or `DETERMINISTIC`.  If the value is `DETERMINISTIC`, Curator will automatically
 select the data node with the most available free space and make that the target node.
 Curator will repeat this process for each successive index when the value is `DETERMINISTIC`.
@@ -2659,7 +2659,7 @@ For example, you might have set
 node.tag: myvalue
 -----------
 
-in your `elasticsearch.yml` file for one or more of your nodes.  To match
+in your `opensearchpy.yml` file for one or more of your nodes.  To match
 allocation in this case, set value to `myvalue`. Additonally, if you used one of
 the special attribute names `_ip`, `_name`, `_id`, or `_host` for
 <<option_key,key>>, value can match the one of the node ip addresses, names,
@@ -2744,7 +2744,7 @@ Set to `all` for all shard copies, otherwise set to any non-negative value less
 than or equal to the total number of copies for the shard (number of
 replicas + 1)
 
-Read {ref}/docs-index_.html#index-wait-for-active-shards[the Elasticsearch documentation] for more information.
+Read {ref}/docs-index_.html#index-wait-for-active-shards[the OpenSearch documentation] for more information.
 
 === Reindex
 

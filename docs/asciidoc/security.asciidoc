@@ -4,7 +4,7 @@
 [partintro]
 --
 Please read the following sections for help with securing the connection between
-Curator and Elasticsearch.
+Curator and OpenSearch.
 
 * <<python-security,Python and Secure Connectivity>>
 * <<security-errors,Common security error messages>>
@@ -30,7 +30,7 @@ even connect securely.
 Because it is impossible to know if a given system has the correct Python
 version, leave alone the most recent libraries and modules, it becomes nearly
 impossible to guarantee that Curator will be able to make a secure and
-error-free connection to a secured Elasticsearch instance for any `pip` or
+error-free connection to a secured OpenSearch instance for any `pip` or
 RPM/DEB installed modules.  This has lead to an increased amount of
 troubleshooting and support work for Curator.  The precompiled binary packages
 were created to address this.
@@ -47,11 +47,11 @@ If you are encountering SSL/TLS errors in Curator, please see the list of
 [[security-errors]]
 == Common Security Error Messages
 
-=== Elasticsearch ConnectionError
+=== OpenSearch ConnectionError
 
 [source,sh]
 -----------
-Unable to create client connection to Elasticsearch.  Error:ConnectionError(error return without exception set) caused by: SystemError(error return without exception set)
+Unable to create client connection to OpenSearch.  Error:ConnectionError(error return without exception set) caused by: SystemError(error return without exception set)
 -----------
 
 This error can happen on non-secured connections as well.  If it happens with a

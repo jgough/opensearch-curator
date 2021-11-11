@@ -1,5 +1,5 @@
 ## For usage questions and help
-Please create a topic at https://discuss.elastic.co/c/elasticsearch
+Please create a topic at https://discuss.elastic.co/c/opensearch
 
 Perhaps a topic there already has an answer for you!
 

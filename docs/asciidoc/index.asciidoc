@@ -5,8 +5,8 @@
 :es_doc_tree: 7.12
 :stack_doc_tree: 7.12
 :pybuild_ver: 3.9.4
-:ref:  http://www.elastic.co/guide/en/elasticsearch/reference/{es_doc_tree}
-:esref: http://www.elastic.co/guide/en/elasticsearch/reference/{stack_doc_tree}
+:ref:  http://www.elastic.co/guide/en/opensearch/reference/{es_doc_tree}
+:esref: http://www.elastic.co/guide/en/opensearch/reference/{stack_doc_tree}
 :fbref: https://www.elastic.co/guide/en/beats/filebeat/{stack_doc_tree}
 :kbref: https://www.elastic.co/guide/en/kibana/{stack_doc_tree}
 :lsref: https://www.elastic.co/guide/en/logstash/{stack_doc_tree}

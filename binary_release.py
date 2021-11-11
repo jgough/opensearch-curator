@@ -64,11 +64,11 @@ if os.path.exists(build_path):
     if os.path.exists(target_path):
         #print("Build successfully renamed")
         if float(pyver) >= 2.7:
-            shutil.make_archive('elasticsearch-' + target_name, archive_format, '.', target_path)
+            shutil.make_archive('opensearch-' + target_name, archive_format, '.', target_path)
             if platform == 'win32':
-                fname = 'elasticsearch-' + target_name + '.zip'
+                fname = 'opensearch-' + target_name + '.zip'
             else:
-                fname = 'elasticsearch-' + target_name + '.tar.gz'
+                fname = 'opensearch-' + target_name + '.tar.gz'
             # Clean up directory if we made a viable archive.
             if os.path.exists(fname):
                 shutil.rmtree(target_path)

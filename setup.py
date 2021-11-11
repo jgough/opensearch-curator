@@ -22,7 +22,7 @@ def get_version():
     return VERSION
 
 def get_install_requires():
-    res = ['elasticsearch>=7.14.0,<8.0.0' ]
+    res = ['opensearch>=7.14.0,<8.0.0' ]
     res.append('urllib3>=1.26.5,<2')
     res.append('requests>=2.26.0')
     res.append('boto3>=1.18.18')
@@ -111,18 +111,18 @@ try:
         }
 
     setup(
-        name = "elasticsearch-curator",
+        name = "opensearch-curator",
         version = get_version(),
         author = "Elastic",
         author_email = "info@elastic.co",
-        description = "Tending your Elasticsearch indices",
+        description = "Tending your OpenSearch indices",
         long_description=fread('README.rst'),
         url = "http://github.com/elastic/curator",
         download_url = "https://github.com/elastic/curator/tarball/v" + get_version(),
         license = "Apache License, Version 2.0",
         install_requires = get_install_requires(),
         setup_requires = get_install_requires(),
-        keywords = "elasticsearch time-series indexed index-expiry",
+        keywords = "opensearch time-series indexed index-expiry",
         packages = ["curator"],
         include_package_data=True,
         entry_points = {
@@ -150,17 +150,17 @@ try:
     ### end cx_Freeze ###
 except ImportError:
     setup(
-        name = "elasticsearch-curator",
+        name = "opensearch-curator",
         version = get_version(),
         author = "Elastic",
         author_email = "info@elastic.co",
-        description = "Tending your Elasticsearch indices",
+        description = "Tending your OpenSearch indices",
         long_description=fread('README.rst'),
         url = "http://github.com/elastic/curator",
         download_url = "https://github.com/elastic/curator/tarball/v" + get_version(),
         license = "Apache License, Version 2.0",
         install_requires = get_install_requires(),
-        keywords = "elasticsearch time-series indexed index-expiry",
+        keywords = "opensearch time-series indexed index-expiry",
         packages = ["curator"],
         include_package_data=True,
         entry_points = {

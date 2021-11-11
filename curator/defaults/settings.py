@@ -3,12 +3,12 @@ from os import path
 from six import string_types
 from voluptuous import All, Any, Boolean, Coerce, Optional, Range, Required
 
-# Elasticsearch versions supported
+# OpenSearch versions supported
 def version_max():
-    """Return the maximum Elasticsearch version Curator supports"""
+    """Return the maximum OpenSearch version Curator supports"""
     return (7, 99, 99)
 def version_min():
-    """Return the minimum Elasticsearch version Curator supports"""
+    """Return the minimum OpenSearch version Curator supports"""
     return (5, 0, 0)
 
 # Default Config file location

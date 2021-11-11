@@ -15,7 +15,7 @@ class CLITestCase(TestCase):
         ymlname = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         badyaml = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         # This will create a psuedo-random temporary directory on the machine
-        # which runs the unit tests, but NOT on the machine where elasticsearch
+        # which runs the unit tests, but NOT on the machine where opensearch
         # is running. This means tests may fail if run against remote instances
         # unless you explicitly set `self.args['location']` to a proper spot
         # on the target machine.

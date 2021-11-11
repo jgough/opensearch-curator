@@ -4,14 +4,14 @@ Examples
 ========
 
 Each of these examples presupposes that the requisite modules have been imported
-and an instance of the Elasticsearch client object has been created:
+and an instance of the OpenSearch client object has been created:
 
 ::
 
-    import elasticsearch
+    import opensearchpy
     import curator
 
-    client = elasticsearch.Elasticsearch()
+    client = opensearchpy.OpenSearch()
 
 Filter indices by prefix
 ++++++++++++++++++++++++

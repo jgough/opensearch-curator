@@ -50,7 +50,7 @@ def get_target(kind='sdist'):
     else:
         target_name = 'curator-' + str(get_version()) + '-' + get_systype()
     if kind == 'bdist_msi':
-        target_name = 'elasticsearch-' + target_name + '.msi'
+        target_name = 'opensearch-' + target_name + '.msi'
     return target_name
 
 def check_target(kind="sdist"):
@@ -90,11 +90,11 @@ def package_build(kind="sdist"):
             shutil.copytree(build_path, target_path)
             if os.path.exists(target_path):
                 #print("Build successfully renamed")
-                shutil.make_archive('elasticsearch-' + get_target(), ARCHIVE_FMT[PLATFORM], '.', target_path)
+                shutil.make_archive('opensearch-' + get_target(), ARCHIVE_FMT[PLATFORM], '.', target_path)
                 if PLATFORM == 'win32':
-                    fname = 'elasticsearch-' + get_target() + '.zip'
+                    fname = 'opensearch-' + get_target() + '.zip'
                 else:
-                    fname = 'elasticsearch-' + get_target() + '.tar.gz'
+                    fname = 'opensearch-' + get_target() + '.tar.gz'
                 # Clean up directory if we made a viable archive.
                 if os.path.exists(fname):
                     shutil.rmtree(target_path)

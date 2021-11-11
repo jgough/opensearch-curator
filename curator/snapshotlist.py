@@ -19,10 +19,10 @@ class SnapshotList(object):
                 '{0}'.format(repository)
             )
         self.loggit = logging.getLogger('curator.snapshotlist')
-        #: An Elasticsearch Client object.
+        #: An OpenSearch Client object.
         #: Also accessible as an instance variable.
         self.client = client
-        #: An Elasticsearch repository.
+        #: An OpenSearch repository.
         #: Also accessible as an instance variable.
         self.repository = repository
         #: Instance variable.

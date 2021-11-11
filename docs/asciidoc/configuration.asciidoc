@@ -204,7 +204,7 @@ logging:
   loglevel: INFO
   logfile:
   logformat: default
-  blacklist: ['elasticsearch', 'urllib3']
+  blacklist: ['opensearch', 'urllib3']
 -----------
 
 It is a YAML configuration file.  The two root keys must be `client` and
@@ -286,11 +286,11 @@ This should be a single value or left empty.
 url_prefix:
 -----------
 
-In some cases you may be obliged to connect to your Elasticsearch cluster
+In some cases you may be obliged to connect to your OpenSearch cluster
 through a proxy of some kind. There may be a URL prefix before the API URI
-items, e.g. http://example.com/elasticsearch/ as opposed to
+items, e.g. http://example.com/opensearch/ as opposed to
 http://localhost:9200. In such a case, set the `url_prefix` to the
-appropriate value, 'elasticsearch' in this example.
+appropriate value, 'opensearch' in this example.
 
 The default is an empty string.
 
@@ -304,7 +304,7 @@ This should be `True`, `False` or left empty.
 use_ssl:
 -----------
 
-If access to your Elasticsearch instance is protected by SSL encryption, you
+If access to your OpenSearch instance is protected by SSL encryption, you
 must use set `use_ssl` to `True`.
 
 The default is `False`
@@ -320,7 +320,7 @@ certificate:
 -----------
 
 This setting allows the use of a specified CA certificate file to validate the
-SSL certificate used by Elasticsearch.
+SSL certificate used by OpenSearch.
 
 There is no default.
 
@@ -338,7 +338,7 @@ client_cert:
 -----------
 
 Allows the use of a specified SSL client cert file to authenticate to
-Elasticsearch. The file may contain both an SSL client certificate and an SSL
+OpenSearch. The file may contain both an SSL client certificate and an SSL
 key, in which case <<client_key,client_key>> is not used. If specifying
 `client_cert`, and the file specified does not also contain the key, use
 <<client_key,client_key>> to specify the file containing the SSL key. The file
@@ -358,7 +358,7 @@ client_key:
 -----------
 
 Allows the use of a specified SSL client key file to authenticate to
-Elasticsearch. If using <<client_cert,client_cert>> and the file specified does
+OpenSearch. If using <<client_cert,client_cert>> and the file specified does
 not also contain the key, use `client_key` to specify the file containing the
 SSL key. The key file must be an unencrypted key in PEM format.
 
@@ -470,7 +470,7 @@ This should be `True`, `False` or left empty.
 ssl_no_validate:
 -----------
 
-If access to your Elasticsearch instance is protected by SSL encryption, you may
+If access to your OpenSearch instance is protected by SSL encryption, you may
 set `ssl_no_validate` to `True` to disable SSL certificate verification.
 
 Valid use cases for doing so include the use of self-signed certificates that
@@ -494,7 +494,7 @@ This should be a authentication credentials (e.g. `user:pass`), or left empty.
 http_auth:
 -----------
 
-This setting allows basic HTTP authentication to an Elasticsearch instance.
+This setting allows basic HTTP authentication to an OpenSearch instance.
 
 The default is empty.
 
@@ -518,7 +518,7 @@ This should a base64 encoded token (e.g: `id:api_key`).
 apikey_auth:
 ---------
 
-This setting allows API Key authentication to an Elasticsearch instance.
+This setting allows API Key authentication to an OpenSearch instance.
 
 The default is empty.
 
@@ -640,14 +640,14 @@ empty.
 
 [source,sh]
 -----------
-blacklist: ['elasticsearch', 'urllib3']
+blacklist: ['opensearch', 'urllib3']
 -----------
 
-The default value is `['elasticsearch', 'urllib3']`, which will result in
-logs for the `elasticsearch` and `urllib3` Python modules _not_ being output.
+The default value is `['opensearch', 'urllib3']`, which will result in
+logs for the `opensearch` and `urllib3` Python modules _not_ being output.
 These can be quite verbose, so unless you need them to debug an issue, you
 should accept the default value.
 
 TIP: If you do need to troubleshoot an issue, set `blacklist` to `[]`, which is
 an empty array.  Leaving it unset will result in the default behavior, which is
-to filter out `elasticsearch` and `urllib3` log traffic.
+to filter out `opensearch` and `urllib3` log traffic.

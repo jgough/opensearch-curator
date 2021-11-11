@@ -47,9 +47,9 @@ The help output looks like this:
 $ curator --help
 Usage: curator [OPTIONS] ACTION_FILE
 
-  Curator for Elasticsearch indices.
+  Curator for OpenSearch indices.
 
-  See http://elastic.co/guide/en/elasticsearch/client/curator/current
+  See http://elastic.co/guide/en/opensearch/client/curator/current
 
 Options:
   --config PATH  Path to configuration file. Default: ~/.curator/curator.yml
@@ -81,10 +81,10 @@ Usage: curator_cli [OPTIONS] COMMAND [ARGS]...
 Options:
   --config PATH       Path to configuration file. Default:
                       ~/.curator/curator.yml
-  --host TEXT         Elasticsearch host.
-  --url_prefix TEXT   Elasticsearch http url prefix.
-  --port TEXT         Elasticsearch port.
-  --use_ssl           Connect to Elasticsearch through SSL.
+  --host TEXT         OpenSearch host.
+  --url_prefix TEXT   OpenSearch http url prefix.
+  --port TEXT         OpenSearch port.
+  --use_ssl           Connect to OpenSearch through SSL.
   --certificate TEXT  Path to certificate to use for SSL validation.
   --client-cert TEXT  Path to file containing SSL certificate for client auth.
   --client-key TEXT   Path to file containing SSL key for client auth.

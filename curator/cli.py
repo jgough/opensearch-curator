@@ -236,8 +236,8 @@ def run(config, action_file, dry_run=False):
 @click.version_option(version=__version__)
 def cli(config, dry_run, action_file):
     """
-    Curator for Elasticsearch indices.
+    Curator for OpenSearch indices.
 
-    See http://elastic.co/guide/en/elasticsearch/client/curator/current
+    See http://elastic.co/guide/en/opensearch/client/curator/current
     """
     run(config, action_file, dry_run)

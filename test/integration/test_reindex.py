@@ -1,4 +1,4 @@
-import elasticsearch
+import opensearchpy
 import curator
 import os
 import json

@@ -7,8 +7,8 @@ import sys
 import tempfile
 import time
 from datetime import timedelta, datetime, date
-from elasticsearch import Elasticsearch
-from elasticsearch.exceptions import ConnectionError
+from opensearchpy import OpenSearch
+from opensearchpy.exceptions import ConnectionError
 from subprocess import Popen, PIPE
 from curator import get_version
 
@@ -40,7 +40,7 @@ def get_client():
     if client is not None:
         return client
 
-    client = Elasticsearch([os.environ.get('TEST_ES_SERVER', {})], timeout=300)
+    client = OpenSearch([os.environ.get('TEST_ES_SERVER', {})], timeout=300)
 
     # wait for yellow status
     for _ in range(100):
@@ -53,7 +53,7 @@ def get_client():
             continue
     else:
         # timeout
-        raise SkipTest("Elasticsearch failed to start.")
+        raise SkipTest("OpenSearch failed to start.")
 
 def setup():
     get_client()
@@ -75,7 +75,7 @@ class CuratorTestCase(TestCase):
         self.args = args
         # dirname = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         # This will create a psuedo-random temporary directory on the machine
-        # which runs the unit tests, but NOT on the machine where elasticsearch
+        # which runs the unit tests, but NOT on the machine where opensearch
         # is running. This means tests may fail if run against remote instances
         # unless you explicitly set `self.args['location']` to a proper spot
         # on the target machine.

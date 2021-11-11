@@ -4,7 +4,7 @@ import re
 import time
 from copy import deepcopy
 from datetime import datetime
-from elasticsearch.exceptions import ConflictError, RequestError
+from opensearchpy.exceptions import ConflictError, RequestError
 from curator import exceptions, utils
 
 class Alias(object):
@@ -16,7 +16,7 @@ class Alias(object):
         :arg name: The alias name
         :arg extra_settings: Extra settings, including filters and routing. For
             more information see
-            https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
+            https://www.elastic.co/guide/en/opensearch/reference/current/indices-aliases.html
         :type extra_settings: dict, representing the settings.
         """
         if not name:
@@ -29,7 +29,7 @@ class Alias(object):
         #: :mod:`curator.actions.Alias.remove`
         self.actions = []
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = None
         #: Instance variable.
         #: Any extra things to add to the alias, like filters, or routing.
@@ -188,7 +188,7 @@ class Allocation(object):
 
         .. note::
             See:
-            https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-allocation-filtering.html
+            https://www.elastic.co/guide/en/opensearch/reference/current/shard-allocation-filtering.html
         """
         utils.verify_index_list(ilo)
         if not key:
@@ -202,7 +202,7 @@ class Allocation(object):
         #: Internal reference to `ilo`
         self.index_list = ilo
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         self.loggit = logging.getLogger('curator.actions.allocation')
         #: Instance variable.
@@ -291,7 +291,7 @@ class Close(object):
         #: Internal reference to `ignore_sync_failures`
         self.ignore_sync_failures = ignore_sync_failures
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         self.loggit = logging.getLogger('curator.actions.close')
 
@@ -356,7 +356,7 @@ class Freeze(object):
         #: Internal reference to `ilo`
         self.index_list = ilo
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         self.loggit = logging.getLogger('curator.actions.freeze')
 
@@ -399,7 +399,7 @@ class Unfreeze(object):
         #: Internal reference to `ilo`
         self.index_list = ilo
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         self.loggit = logging.getLogger('curator.actions.unfreeze')
 
@@ -439,7 +439,7 @@ class ClusterRouting(object):
         """
         For now, the cluster routing settings are hardcoded to be ``transient``
 
-        :arg client: An :class:`elasticsearch.Elasticsearch` client object
+        :arg client: An :class:`opensearchpy.OpenSearch` client object
         :arg routing_type: Type of routing to apply. Either `allocation` or
             `rebalance`
         :arg setting: Currently, the only acceptable value for `setting` is
@@ -458,7 +458,7 @@ class ClusterRouting(object):
         """
         utils.verify_client_object(client)
         #: Instance variable.
-        #: An :class:`elasticsearch.Elasticsearch` client object
+        #: An :class:`opensearchpy.OpenSearch` client object
         self.client = client
         self.loggit = logging.getLogger('curator.actions.cluster_routing')
         #: Instance variable.
@@ -527,12 +527,12 @@ class CreateIndex(object):
     """Create Index Action Class"""
     def __init__(self, client, name, extra_settings={}, ignore_existing=False):
         """
-        :arg client: An :class:`elasticsearch.Elasticsearch` client object
+        :arg client: An :class:`opensearchpy.OpenSearch` client object
         :arg name: A name, which can contain :py:func:`time.strftime`
             strings
         :arg extra_settings: The `settings` and `mappings` for the index. For
             more information see
-            https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html
+            https://www.elastic.co/guide/en/opensearch/reference/current/indices-create-index.html
         :type extra_settings: dict, representing the settings and mappings.
         :arg ignore_existing: If an index already exists, and this setting is ``True``,
             ignore the 400 error that results in a `resource_already_exists_exception` and
@@ -552,7 +552,7 @@ class CreateIndex(object):
         #: whether to ignore the error if the index already exists.
         self.ignore_existing = ignore_existing
         #: Instance variable.
-        #: An :class:`elasticsearch.Elasticsearch` client object
+        #: An :class:`opensearchpy.OpenSearch` client object
         self.client = client
         self.loggit = logging.getLogger('curator.actions.create_index')
 
@@ -603,7 +603,7 @@ class DeleteIndices(object):
         #: Internal reference to `ilo`
         self.index_list = ilo
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: String value of `master_timeout` + 's', for seconds.
@@ -691,7 +691,7 @@ class ForceMerge(object):
         if not max_num_segments:
             raise exceptions.MissingArgument('Missing value for "max_num_segments"')
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: Internal reference to `ilo`
@@ -761,7 +761,7 @@ class IndexSettings(object):
         if not index_settings:
             raise exceptions.MissingArgument('Missing value for "index_settings"')
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: Internal reference to `ilo`
@@ -878,7 +878,7 @@ class Open(object):
         """
         utils.verify_index_list(ilo)
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: Internal reference to `ilo`
@@ -930,7 +930,7 @@ class Replicas(object):
         elif not count:
             raise exceptions.MissingArgument('Missing value for "count"')
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: Internal reference to `ilo`
@@ -996,7 +996,7 @@ class Rollover(object):
             wait_for_active_shards=1
         ):
         """
-        :arg client: An :class:`elasticsearch.Elasticsearch` client object
+        :arg client: An :class:`opensearchpy.OpenSearch` client object
         :arg name: The name of the single-index-mapped alias to test for
             rollover conditions.
         :new_index: The new index name
@@ -1018,7 +1018,7 @@ class Rollover(object):
                 '"extra_settings" must be a dictionary or None')
         utils.verify_client_object(client)
         #: Instance variable.
-        #: The Elasticsearch Client object
+        #: The OpenSearch Client object
         self.client = client
         #: Instance variable.
         #: Internal reference to `conditions`
@@ -1052,7 +1052,7 @@ class Rollover(object):
             version = utils.get_version(self.client)
             if version < (6, 1, 0):
                 raise exceptions.ConfigurationError(
-                    'Your version of elasticsearch ({0}) does not support '
+                    'Your version of opensearch ({0}) does not support '
                     'the max_size rollover condition. It is only supported '
                     'in versions 6.1.0 and up.'.format(version)
                 )
@@ -1138,7 +1138,7 @@ class DeleteSnapshots(object):
         """
         utils.verify_snapshot_list(slo)
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `slo`
+        #: The OpenSearch Client object derived from `slo`
         self.client = slo.client
         #: Instance variable.
         #: Internally accessible copy of `retry_interval`
@@ -1209,7 +1209,7 @@ class Reindex(object):
         """
         :arg ilo: A :class:`curator.indexlist.IndexList` object
         :arg request_body: The body to send to
-            :py:meth:`elasticsearch.Elasticsearch.reindex`, which must be complete and
+            :py:meth:`opensearchpy.OpenSearch.reindex`, which must be complete and
             usable, as Curator will do no vetting of the request_body. If it
             fails to function, Curator will return an exception.
         :arg refresh: Whether to refresh the entire target index after the
@@ -1235,7 +1235,7 @@ class Reindex(object):
             completion.
         :arg max_wait: Maximum number of seconds to `wait_for_completion`
         :arg remote_url_prefix: `Optional` url prefix, if needed to reach the
-            Elasticsearch API (i.e., it's not at the root level)
+            OpenSearch API (i.e., it's not at the root level)
         :type remote_url_prefix: str
         :arg remote_ssl_no_validate: If `True`, do not validate the certificate
             chain.  This is an insecure option and you will see warnings in the
@@ -1269,7 +1269,7 @@ class Reindex(object):
         self.body = request_body
         self.loggit.debug('REQUEST_BODY = {0}'.format(request_body))
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: Internal reference to `ilo`
@@ -1418,7 +1418,7 @@ class Reindex(object):
                     )
                 except Exception as err:
                     self.loggit.error(
-                        'Unable to establish connection to remote Elasticsearch'
+                        'Unable to establish connection to remote OpenSearch'
                         ' with provided credentials/certificates/settings.'
                     )
                     utils.report_failure(err)
@@ -1463,7 +1463,7 @@ class Reindex(object):
         version = utils.get_version(self.client)
         if version < (5, 1, 0):
             self.loggit.info(
-                'Your version of elasticsearch ({0}) does not support '
+                'Your version of opensearch ({0}) does not support '
                 'sliced scroll for reindex, so that setting will not be '
                 'used'.format(version)
             )
@@ -1515,13 +1515,13 @@ class Reindex(object):
             if not index_exists and not alias_instead:
                 self.loggit.error(
                     'The index described as "{0}" was not found after the reindex '
-                    'operation. Check Elasticsearch logs for more '
+                    'operation. Check OpenSearch logs for more '
                     'information.'.format(index_name)
                 )
                 if self.remote:
                     self.loggit.error(
                         'Did you forget to add "reindex.remote.whitelist: '
-                        '{0}:{1}" to the elasticsearch.yml file on the '
+                        '{0}:{1}" to the opensearchpy.yml file on the '
                         '"dest" node?'.format(
                             self.remote_host, self.remote_port
                         )
@@ -1583,7 +1583,7 @@ class Reindex(object):
 
     def do_action(self):
         """
-        Execute :py:meth:`elasticsearch.Elasticsearch.reindex` operation with the
+        Execute :py:meth:`opensearchpy.OpenSearch.reindex` operation with the
         provided request_body and arguments.
         """
         try:
@@ -1625,7 +1625,7 @@ class Snapshot(object):
     ):
         """
         :arg ilo: A :class:`curator.indexlist.IndexList` object
-        :arg repository: The Elasticsearch snapshot repository to use
+        :arg repository: The OpenSearch snapshot repository to use
         :arg name: What to name the snapshot.
         :arg wait_for_completion: Wait (or not) for the operation
             to complete before returning.  (default: `True`)
@@ -1660,7 +1660,7 @@ class Snapshot(object):
         if not name:
             raise exceptions.MissingArgument('No value for "name" provided.')
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `ilo`
+        #: The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable.
         #: The parsed version of `name`
@@ -1812,7 +1812,7 @@ class Restore(object):
         :type rename_replacement: str
         :arg extra_settings: Extra settings, including shard count and settings
             to omit. For more information see
-            https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html#change-index-settings-during-restore
+            https://www.elastic.co/guide/en/opensearch/reference/current/snapshots-restore-snapshot.html#change-index-settings-during-restore
         :type extra_settings: dict, representing the settings.
         :arg wait_for_completion: Wait (or not) for the operation
             to complete before returning.  (default: `True`)
@@ -1845,7 +1845,7 @@ class Restore(object):
                 'state "SUCCESS", or "PARTIAL" if partial=True.'
             )
         #: Instance variable.
-        #: The Elasticsearch Client object derived from `slo`
+        #: The OpenSearch Client object derived from `slo`
         self.client = slo.client
         #: Instance variable.
         #: Internal reference to `slo`
@@ -2060,7 +2060,7 @@ class Shrink(object):
         utils.verify_index_list(ilo)
         if 'permit_masters' not in node_filters:
             node_filters['permit_masters'] = False
-        #: Instance variable. The Elasticsearch Client object derived from `ilo`
+        #: Instance variable. The OpenSearch Client object derived from `ilo`
         self.client = ilo.client
         #: Instance variable. Internal reference to `ilo`
         self.index_list = ilo
@@ -2188,7 +2188,7 @@ class Shrink(object):
         Determine which data node name has the most available free space, and
         meets the other node filters settings.
 
-        :arg client: An :class:`elasticsearch.Elasticsearch` client object
+        :arg client: An :class:`opensearchpy.OpenSearch` client object
         """
         mvn_avail = 0
         # mvn_total = 0

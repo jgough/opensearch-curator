@@ -4,7 +4,7 @@
 [partintro]
 --
 
-Elasticsearch Curator helps you curate, or manage, your Elasticsearch indices
+OpenSearch Curator helps you curate, or manage, your OpenSearch indices
 and snapshots by:
 
 1. Obtaining the full list of indices (or snapshots) from the cluster, as the
@@ -35,11 +35,11 @@ https://logstash.jira.com/browse/LOGSTASH-211[`logstash_index_cleaner.py`].
 After a time it was briefly relocated under the
 https://github.com/elastic/logstash[logstash] repository as
 `expire_logs`, at which point it began to gain new functionality.  Soon
-thereafter, Jordan Sissel was hired by Elastic (then still Elasticsearch), as
-was the original author of Curator.  Not long after that it became Elasticsearch
+thereafter, Jordan Sissel was hired by Elastic (then still OpenSearch), as
+was the original author of Curator.  Not long after that it became OpenSearch
 Curator and is now hosted at https://github.com/elastic/curator
 
-Curator now performs many operations on your Elasticsearch indices, from delete
+Curator now performs many operations on your OpenSearch indices, from delete
 to snapshot to shard allocation routing.
 
 [[about-features]]
@@ -79,13 +79,13 @@ even new and different things--with the same code that Curator uses.
 
 The API documentation is not on this site, but is available at
 http://curator.readthedocs.io/.  The Curator API is built using the
-http://www.elastic.co/guide/en/elasticsearch/client/python-api/current/index.html[Elasticsearch
+http://www.elastic.co/guide/en/opensearch/client/python-api/current/index.html[OpenSearch
 Python API].
 
 [[license]]
 == License
 
-Copyright (c) 2011–2017 Elasticsearch <http://elastic.co>
+Copyright (c) 2011–2017 OpenSearch <http://elastic.co>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

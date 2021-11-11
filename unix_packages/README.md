@@ -39,13 +39,13 @@ docker run --rm -v $(pwd):/curator_packages curator_builder /package_maker.sh X.
 The result will be an RPM package named:
 
 ```
-elasticsearch-curator-X.Y.Z-1.x86_64.rpm
+opensearch-curator-X.Y.Z-1.x86_64.rpm
 ```
 
 and a DEB package named:
 
 ```
-elasticsearch-curator_X.Y.Z_amd64.deb
+opensearch-curator_X.Y.Z_amd64.deb
 ```
 
 These packages were tested in CentOS 6 & 7; Ubuntu 1404, 1604, and 1804; and Debian 8 & 9.

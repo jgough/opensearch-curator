@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Elasticsearch documentation build configuration file, created by
+# OpenSearch documentation build configuration file, created by
 # sphinx-quickstart on Mon May  6 15:38:41 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -48,7 +48,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.intersphin
 
 intersphinx_mapping = {
 	'python': ('https://docs.python.org/3.6', None),
-	'elasticsearch': ('http://elasticsearch-py.readthedocs.io/en/5.4.0', None),
+	'opensearch': ('http://opensearchpy.readthedocs.io/en/5.4.0', None),
 }
 
 autoclass_content = "both"
@@ -66,8 +66,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Elasticsearch Curator'
-copyright = u'2011-2017, Elasticsearch'
+project = u'OpenSearch Curator'
+copyright = u'2011-2017, OpenSearch'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -212,7 +212,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'ES_Curator.tex', u'Elasticsearch Curator Documentation',
+  ('index', 'ES_Curator.tex', u'OpenSearch Curator Documentation',
    u'Aaron Mildenstein', 'manual'),
 ]
 
@@ -242,7 +242,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'curator', u'Elasticsearch Curator Documentation',
+    ('index', 'curator', u'OpenSearch Curator Documentation',
      [u'Aaron Mildenstein'], 1)
 ]
 
@@ -256,7 +256,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Curator', u'Elasticsearch Curator Documentation',
+  ('index', 'Curator', u'OpenSearch Curator Documentation',
    u'Aaron Mildenstein', 'Curator', 'One line description of project.',
    'Miscellaneous'),
 ]

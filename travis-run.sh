@@ -6,9 +6,9 @@ expected_skips=1
 
 setup_es() {
   download_url=$1
-  curl -sL $download_url > elasticsearch.tar.gz
-  mkdir elasticsearch
-  tar -xzf elasticsearch.tar.gz --strip-components=1 -C ./elasticsearch/.
+  curl -sL $download_url > opensearchpy.tar.gz
+  mkdir opensearch
+  tar -xzf opensearchpy.tar.gz --strip-components=1 -C ./opensearch/.
 }
 
 start_es() {
@@ -17,10 +17,10 @@ start_es() {
   es_port=$3
   es_cluster=$4
   export JAVA_HOME=$jhome
-  elasticsearch/bin/elasticsearch $es_args > /tmp/$es_cluster.log &
+  opensearch/bin/opensearch $es_args > /tmp/$es_cluster.log &
   sleep 20
-  curl http://127.0.0.1:$es_port && echo "$es_cluster Elasticsearch is up!" || cat /tmp/$es_cluster.log ./elasticsearch/logs/$es_cluster.log  
-  # curl http://127.0.0.1:$es_port && echo "ES is up!" || cat /tmp/$es_cluster.log ./elasticsearch/logs/$es_cluster.log
+  curl http://127.0.0.1:$es_port && echo "$es_cluster OpenSearch is up!" || cat /tmp/$es_cluster.log ./opensearch/logs/$es_cluster.log  
+  # curl http://127.0.0.1:$es_port && echo "ES is up!" || cat /tmp/$es_cluster.log ./opensearch/logs/$es_cluster.log
 }
 
 start_es6() {
@@ -30,10 +30,10 @@ start_es6() {
   es_port=$4
   es_cluster=$5
   export JAVA_HOME=$jhome
-  ES_PATH_CONF=$path_env elasticsearch/bin/elasticsearch $es_args > /tmp/$es_cluster.log &
+  ES_PATH_CONF=$path_env opensearch/bin/opensearch $es_args > /tmp/$es_cluster.log &
   sleep 20
-  curl http://127.0.0.1:$es_port && echo "$es_cluster Elasticsearch is up!" || cat /tmp/$es_cluster.log ./elasticsearch/logs/$es_cluster.log
-  # curl http://127.0.0.1:$es_port && echo "ES is up!" || cat /tmp/$es_cluster.log ./elasticsearch/logs/$es_cluster.log
+  curl http://127.0.0.1:$es_port && echo "$es_cluster OpenSearch is up!" || cat /tmp/$es_cluster.log ./opensearch/logs/$es_cluster.log
+  # curl http://127.0.0.1:$es_port && echo "ES is up!" || cat /tmp/$es_cluster.log ./opensearch/logs/$es_cluster.log
 }
 
 start_es7() {
@@ -41,9 +41,9 @@ start_es7() {
   path_env=$2
   es_port=$3
   es_cluster=$4
-  ES_PATH_CONF=$path_env elasticsearch/bin/elasticsearch $es_args > /tmp/$es_cluster.log &
+  ES_PATH_CONF=$path_env opensearch/bin/opensearch $es_args > /tmp/$es_cluster.log &
   sleep 20
-  curl http://127.0.0.1:$es_port && echo "$es_cluster Elasticsearch is up!" || cat /tmp/$es_cluster.log ./elasticsearch/logs/$es_cluster.log
+  curl http://127.0.0.1:$es_port && echo "$es_cluster OpenSearch is up!" || cat /tmp/$es_cluster.log ./opensearch/logs/$es_cluster.log
 }
 
 common_node_settings() {
@@ -73,7 +73,7 @@ common_node_settings() {
   fi
 }
 
-setup_es https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ES_VERSION.tar.gz
+setup_es https://artifacts.elastic.co/downloads/opensearch/opensearch-$ES_VERSION.tar.gz
 
 java_home='/usr/lib/jvm/java-8-openjdk-amd64/jre'
 
@@ -82,21 +82,21 @@ MAJORVER=$(echo $ES_VERSION | awk -F\. '{print $1}')
 MINORVER=$(echo $ES_VERSION | awk -F\. '{print $2}')
 
 ### Build local cluster config (since 5.4 removed most flags)
-LC=elasticsearch/localcluster
+LC=opensearch/localcluster
 mkdir -p $LC
-cp elasticsearch/config/log4j2.properties $LC
-cp elasticsearch/config/jvm.options $LC
-common_node_settings $MAJORVER $MINORVER 9200 "local" "$LC/elasticsearch.yml"
-echo 'path.repo: /' >> $LC/elasticsearch.yml
-echo 'reindex.remote.whitelist: localhost:9201' >> $LC/elasticsearch.yml
+cp opensearch/config/log4j2.properties $LC
+cp opensearch/config/jvm.options $LC
+common_node_settings $MAJORVER $MINORVER 9200 "local" "$LC/opensearchpy.yml"
+echo 'path.repo: /' >> $LC/opensearchpy.yml
+echo 'reindex.remote.whitelist: localhost:9201' >> $LC/opensearchpy.yml
 
 
 ### Build remote cluster config (since 5.4 removed most flags)
-RC=elasticsearch/remotecluster
+RC=opensearch/remotecluster
 mkdir -p $RC
-cp elasticsearch/config/log4j2.properties $RC
-cp elasticsearch/config/jvm.options $RC
-common_node_settings $MAJORVER $MINORVER 9201 remote "$RC/elasticsearch.yml"
+cp opensearch/config/log4j2.properties $RC
+cp opensearch/config/jvm.options $RC
+common_node_settings $MAJORVER $MINORVER 9201 remote "$RC/opensearchpy.yml"
 
 if [[ $MAJORVER -lt 6 ]]; then
   start_es $java_home "-d -Epath.conf=$LC" 9200 "local"

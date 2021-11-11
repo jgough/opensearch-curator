@@ -9,7 +9,7 @@ import sys
 from datetime import timedelta, datetime, date
 import base64
 import yaml
-import elasticsearch
+import opensearchpy
 from voluptuous import Schema
 from curator import exceptions
 from curator.defaults import settings
@@ -87,12 +87,12 @@ def rollable_alias(client, alias):
     Ensure that `alias` is an alias, and points to an index that can use the
     ``_rollover`` API.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg alias: An Elasticsearch alias
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg alias: An OpenSearch alias
     """
     try:
         response = client.indices.get_alias(name=alias)
-    except elasticsearch.exceptions.NotFoundError:
+    except opensearchpy.exceptions.NotFoundError:
         LOGGER.error('alias "{0}" not found.'.format(alias))
         return False
     # Response should be like:
@@ -127,7 +127,7 @@ def rollable_alias(client, alias):
 
 def verify_client_object(test):
     """
-    Test if `test` is a proper :class:`elasticsearch.Elasticsearch` client
+    Test if `test` is a proper :class:`opensearchpy.OpenSearch` client
     object and raise an exception if it is not.
 
     :arg test: The variable or object to test
@@ -137,7 +137,7 @@ def verify_client_object(test):
     if str(type(test)) == "<class 'mock.Mock'>" or \
         str(type(test)) == "<class 'mock.mock.Mock'>":
         pass
-    elif not isinstance(test, elasticsearch.Elasticsearch):
+    elif not isinstance(test, opensearchpy.OpenSearch):
         raise TypeError(
             'Not a client object. Type: {0}'.format(type(test))
         )
@@ -181,7 +181,7 @@ def report_failure(exception):
     """
     raise exceptions.FailedExecution(
         'Exception encountered.  Rerun with loglevel DEBUG and/or check '
-        'Elasticsearch logs for more information. '
+        'OpenSearch logs for more information. '
         'Exception: {0}'.format(exception)
     )
 
@@ -653,7 +653,7 @@ def get_indices(client):
     """
     Get the current list of indices from the cluster.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: list
     """
     try:
@@ -662,7 +662,7 @@ def get_indices(client):
         )
         version_number = get_version(client)
         LOGGER.debug(
-            'Detected Elasticsearch version '
+            'Detected OpenSearch version '
             '{0}'.format(".".join(map(str, version_number)))
         )
         LOGGER.debug("All indices: {0}".format(indices))
@@ -675,7 +675,7 @@ def get_version(client):
     Return the ES version number as a tuple.
     Omits trailing tags like -dev, or Beta
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: tuple
     """
     version = client.info()['version']['number']
@@ -689,9 +689,9 @@ def get_version(client):
 def is_master_node(client):
     """
     Return `True` if the connected client node is the elected master node in
-    the Elasticsearch cluster, otherwise return `False`.
+    the OpenSearch cluster, otherwise return `False`.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: bool
     """
     my_node_id = list(client.nodes.info('_local')['nodes'])[0]
@@ -702,19 +702,19 @@ def check_version(client):
     """
     Verify version is within acceptable range.  Raise an exception if it is not.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: None
     """
     version_number = get_version(client)
-    LOGGER.debug('Detected Elasticsearch version {0}'.format(".".join(map(str, version_number))))
+    LOGGER.debug('Detected OpenSearch version {0}'.format(".".join(map(str, version_number))))
     if version_number >= settings.version_max() \
         or version_number < settings.version_min():
         LOGGER.error(
-            'Elasticsearch version {0} incompatible with this version of Curator '
+            'OpenSearch version {0} incompatible with this version of Curator '
             '({1})'.format(".".join(map(str, version_number)), __version__)
         )
         raise exceptions.CuratorException(
-            'Elasticsearch version {0} incompatible with this version of Curator '
+            'OpenSearch version {0} incompatible with this version of Curator '
             '({1})'.format(".".join(map(str, version_number)), __version__)
         )
 
@@ -723,7 +723,7 @@ def check_master(client, master_only=False):
     Check if connected client is the elected master node of the cluster.
     If not, cleanly exit with a log message.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: None
     """
     if master_only and not is_master_node(client):
@@ -785,7 +785,7 @@ def process_master_only_arg(data):
 
 def process_auth_args(data):
     """
-    Return a valid http_auth tuple for authentication in the elasticsearch.Elasticsearch
+    Return a valid http_auth tuple for authentication in the opensearchpy.OpenSearch
     client object
     """
     http_auth = data['http_auth'] if 'http_auth' in data else None
@@ -817,7 +817,7 @@ def isbase64(data):
 
 def process_apikey_auth_args(data):
     """
-    Return a valid api_key base64 token for API Key authentication in the elasticsearch.Elasticsearch
+    Return a valid api_key base64 token for API Key authentication in the opensearchpy.OpenSearch
     client object
     """
     api_key = data.pop('apikey_auth', None)
@@ -931,15 +931,15 @@ def try_aws_auth(data):
 
 def do_version_check(client, skip):
     """
-    Do a test of the Elasticsearch version, unless ``skip`` is ``True``
+    Do a test of the OpenSearch version, unless ``skip`` is ``True``
     """
     if skip:
         LOGGER.warn(
-            'Skipping Elasticsearch version verification. This is '
+            'Skipping OpenSearch version verification. This is '
             'acceptable for remote reindex operations.'
         )
     else:
-        LOGGER.debug('Checking Elasticsearch endpoint version...')
+        LOGGER.debug('Checking OpenSearch endpoint version...')
         try:
             # Verify the version is acceptable.
             check_version(client)
@@ -976,17 +976,17 @@ def get_client(**kwargs):
     AWS IAM parameters `aws_key`, `aws_secret_key`, and `aws_region` are
     provided for users that still have their keys included in the Curator config file.
 
-    Return an :class:`elasticsearch.Elasticsearch` client object using the
+    Return an :class:`opensearchpy.OpenSearch` client object using the
     provided parameters. Any of the keyword arguments the
-    :class:`elasticsearch.Elasticsearch` client object can receive are valid,
+    :class:`opensearchpy.OpenSearch` client object can receive are valid,
     such as:
 
-    :arg hosts: A list of one or more Elasticsearch client hostnames or IP
+    :arg hosts: A list of one or more OpenSearch client hostnames or IP
         addresses to connect to.  Can send a single host.
     :type hosts: list
-    :arg port: The Elasticsearch client port to connect to.
+    :arg port: The OpenSearch client port to connect to.
     :type port: int
-    :arg url_prefix: `Optional` url prefix, if needed to reach the Elasticsearch
+    :arg url_prefix: `Optional` url prefix, if needed to reach the OpenSearch
         API (i.e., it's not at the root level)
     :type url_prefix: str
     :arg use_ssl: Whether to connect to the client via SSL/TLS
@@ -1023,8 +1023,8 @@ def get_client(**kwargs):
     :type master_only: bool
     :arg skip_version_test: If `True`, skip the version check as part of the
         client connection.
-    :rtype: :class:`elasticsearch.Elasticsearch`
-    :arg api_key: value to be used in optional X-Api-key header when accessing Elasticsearch
+    :rtype: :class:`opensearchpy.OpenSearch`
+    :arg api_key: value to be used in optional X-Api-key header when accessing OpenSearch
     :type api_key: str
     :arg apikey_auth: API Key authentication in `id:api_key` encoded in base64 format.
     :type apikey_auth: str
@@ -1034,7 +1034,7 @@ def get_client(**kwargs):
     kwargs = process_url_prefix_arg(kwargs)
     kwargs = process_host_args(kwargs)
     kwargs = process_x_api_key_arg(kwargs)
-    kwargs['connection_class'] = elasticsearch.RequestsHttpConnection
+    kwargs['connection_class'] = opensearchpy.RequestsHttpConnection
     kwargs = process_ssl_args(kwargs)
     kwargs = process_aws_args(kwargs)
     kwargs = try_boto_session(kwargs)
@@ -1049,13 +1049,13 @@ def get_client(**kwargs):
     try:
         # Creating the class object should be okay
         LOGGER.info('Instantiating client object')
-        client = elasticsearch.Elasticsearch(**kwargs)
+        client = opensearchpy.OpenSearch(**kwargs)
         # Test client connectivity (debug log client.info() output)
         LOGGER.info('Testing client connectivity')
         LOGGER.debug('Cluster info: {0}'.format(client.info()))
-        LOGGER.info('Successfully created Elasticsearch client object with provided settings')
+        LOGGER.info('Successfully created OpenSearch client object with provided settings')
     # Catch all TransportError types first
-    except elasticsearch.TransportError as err:
+    except opensearchpy.TransportError as err:
         try:
             reason = err.info['error']['reason']
         except:
@@ -1064,7 +1064,7 @@ def get_client(**kwargs):
         fail = True
     # Catch other potential exceptions
     except Exception as err:
-        LOGGER.error('Unable to connect to Elasticsearch cluster. Error: {0}'.format(err))
+        LOGGER.error('Unable to connect to OpenSearch cluster. Error: {0}'.format(err))
         fail = True
     ## failure checks
     # First level failure check
@@ -1102,15 +1102,15 @@ def get_repository(client, repository=''):
     """
     Return configuration information for the indicated repository.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :rtype: dict
     """
     try:
         return client.snapshot.get_repository(repository=repository)
-    except (elasticsearch.TransportError, elasticsearch.NotFoundError) as err:
+    except (opensearchpy.TransportError, opensearchpy.NotFoundError) as err:
         raise exceptions.CuratorException(
-            'Unable to get repository {0}.  Response Code: {1}  Error: {2} Check Elasticsearch '
+            'Unable to get repository {0}.  Response Code: {1}  Error: {2} Check OpenSearch '
             'logs for more information.'.format(repository, err.status_code, err.error)
         )
 
@@ -1120,8 +1120,8 @@ def get_snapshot(client, repository=None, snapshot=''):
     If no snapshot specified, it will return all snapshots.  If none exist, an
     empty dictionary will be returned.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :arg snapshot: The snapshot name, or a comma-separated list of snapshots
     :rtype: dict
     """
@@ -1130,7 +1130,7 @@ def get_snapshot(client, repository=None, snapshot=''):
     snapname = '_all' if snapshot == '' else snapshot
     try:
         return client.snapshot.get(repository=repository, snapshot=snapshot)
-    except (elasticsearch.TransportError, elasticsearch.NotFoundError) as err:
+    except (opensearchpy.TransportError, opensearchpy.NotFoundError) as err:
         raise exceptions.FailedExecution(
             'Unable to get information about snapshot {0} from repository: '
             '{1}.  Error: {2}'.format(snapname, repository, err)
@@ -1140,15 +1140,15 @@ def get_snapshot_data(client, repository=None):
     """
     Get ``_all`` snapshots from repository and return a list.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :rtype: list
     """
     if not repository:
         raise exceptions.MissingArgument('No value for "repository" provided')
     try:
         return client.snapshot.get(repository=repository, snapshot="_all")['snapshots']
-    except (elasticsearch.TransportError, elasticsearch.NotFoundError) as err:
+    except (opensearchpy.TransportError, opensearchpy.NotFoundError) as err:
         raise exceptions.FailedExecution(
             'Unable to get snapshot information from repository: '
             '{0}. Error: {1}'.format(repository, err)
@@ -1160,8 +1160,8 @@ def snapshot_in_progress(client, repository=None, snapshot=None):
     If no value is provided for `snapshot`, then check all of them.
     Return `snapshot` if it is found to be in progress, or `False`
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :arg snapshot: The snapshot name
     """
     allsnaps = get_snapshot_data(client, repository=repository)
@@ -1187,7 +1187,7 @@ def find_snapshot_tasks(client):
     Check if there is snapshot activity in the Tasks API.
     Return `True` if activity is found, or `False`
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: bool
     """
     retval = False
@@ -1204,8 +1204,8 @@ def safe_to_snap(client, repository=None, retry_interval=120, retry_count=3):
     """
     Ensure there are no snapshots in progress.  Pause and retry accordingly
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :arg retry_interval: Number of seconds to delay betwen retries. Default:
         120 (seconds)
     :arg retry_count: Number of attempts to make. Default: 3
@@ -1333,9 +1333,9 @@ def create_repository(client, **kwargs):
     """
     Create repository with repository and body settings
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
 
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg repository: The OpenSearch snapshot repository to use
     :arg repo_type: The type of repository (presently only `fs` and `s3`)
     :arg compress: Turn on compression of the snapshot files. Compression is
         applied only to metadata files (index mapping and settings). Data files
@@ -1377,18 +1377,18 @@ def create_repository(client, **kwargs):
         result = repository_exists(client, repository=repository)
         LOGGER.debug('Result = {0}'.format(result))
         if not result:
-            LOGGER.debug('Repository {0} not in Elasticsearch. Continuing...'.format(repository))
+            LOGGER.debug('Repository {0} not in OpenSearch. Continuing...'.format(repository))
             client.snapshot.create_repository(repository=repository, body=body, params=params)
         else:
             raise exceptions.FailedExecution(
                 'Unable to create repository {0}.  '
                 'A repository with that name already exists.'.format(repository)
             )
-    except elasticsearch.TransportError as err:
+    except opensearchpy.TransportError as err:
         raise exceptions.FailedExecution(
             """
             Unable to create repository {0}.  Response Code: {1}.  Error: {2}.
-            Check curator and elasticsearch logs for more information.
+            Check curator and opensearch logs for more information.
             """.format(repository, err.status_code, err.error)
         )
     LOGGER.debug("Repository {0} creation initiated...".format(repository))
@@ -1398,8 +1398,8 @@ def repository_exists(client, repository=None):
     """
     Verify the existence of a repository
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     :rtype: bool
     """
     if not repository:
@@ -1421,8 +1421,8 @@ def test_repo_fs(client, repository=None):
     """
     Test whether all nodes have write access to the repository
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg repository: The OpenSearch snapshot repository to use
     """
     try:
         nodes = client.snapshot.verify_repository(
@@ -1438,7 +1438,7 @@ def test_repo_fs(client, repository=None):
                 )
             else:
                 msg = (
-                    '--- Got a {0} response from Elasticsearch.  '
+                    '--- Got a {0} response from OpenSearch.  '
                     'Error message: {1}'.format(err.status_code, err.error)
                 )
         except AttributeError:
@@ -1451,7 +1451,7 @@ def snapshot_running(client):
     """
     Return `True` if a snapshot is in progress, and `False` if not
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: bool
     """
     try:
@@ -1468,7 +1468,7 @@ def parse_date_pattern(name):
     with the associated value when found, but otherwise returning lowercase
     values, as uppercase snapshot names are not allowed. It will detect if the
     first character is a `<`, which would indicate `name` is going to be using
-    Elasticsearch date math syntax, and skip accordingly.
+    OpenSearch date math syntax, and skip accordingly.
 
     The :py:func:`time.strftime` identifiers that Curator currently recognizes
     as acceptable include:
@@ -1491,7 +1491,7 @@ def parse_date_pattern(name):
     for idx, char in enumerate(name):
         LOGGER.debug('Current character in provided name: {0}, position: {1}'.format(char, idx))
         if char == '<':
-            LOGGER.info('"{0}" is probably using Elasticsearch date math.'.format(name))
+            LOGGER.info('"{0}" is probably using OpenSearch date math.'.format(name))
             rendered = name
             break
         if char == '%':
@@ -1641,7 +1641,7 @@ def health_check(client, **kwargs):
     appears in the output, and has the expected value.
     If multiple keys are provided, all must match for a `True` response.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     """
     LOGGER.debug('KWARGS= "{0}"'.format(kwargs))
     klist = list(kwargs.keys())
@@ -1678,9 +1678,9 @@ def snapshot_check(client, snapshot=None, repository=None):
     a `WARNING` message, `FAILED` is an `ERROR`, message, and all others will be
     a `WARNING` level message.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :arg snapshot: The name of the snapshot.
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg repository: The OpenSearch snapshot repository to use
     """
     try:
         state = client.snapshot.get(
@@ -1716,7 +1716,7 @@ def relocate_check(client, index):
     state, and it will return `False` if any primary or replica shard is in
     a different state.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :arg index: The index to check the index shards state.
     """
     shard_state_data = (
@@ -1744,7 +1744,7 @@ def restore_check(client, index_list):
     stage), it will immediately return `False`, rather than complete iterating
     over the rest of the response.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :arg index_list: The list of indices to verify having been restored.
     """
     response = {}
@@ -1787,7 +1787,7 @@ def task_check(client, task_id=None):
     If the task is not completed, it will log some information about the task
     and return `False`
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :arg task_id: A task_id which ostensibly matches a task searchable in the
         tasks API.
     """
@@ -1837,12 +1837,12 @@ def wait_for_it(
     """
     This function becomes one place to do all wait_for_completion type behaviors
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :arg action: The action name that will identify how to wait
     :arg task_id: If the action provided a task_id, this is where it must be
         declared.
     :arg snapshot: The name of the snapshot.
-    :arg repository: The Elasticsearch snapshot repository to use
+    :arg repository: The OpenSearch snapshot repository to use
     :arg wait_interval: How frequently the specified "wait" behavior will be
         polled to check for completion.
     :arg max_wait: Number of seconds will the "wait" behavior persist
@@ -1954,7 +1954,7 @@ def node_roles(client, node_id):
     """
     Return the list of roles assigned to the node identified by ``node_id``
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: list
     """
     return client.nodes.info()['nodes'][node_id]['roles']
@@ -1963,8 +1963,8 @@ def index_size(client, idx, value='total'):
     """
     Return the sum of either `primaries` or `total` shards for index ``idx``
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
-    :arg idx: An Elasticsearch index
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
+    :arg idx: An OpenSearch index
     :arg value: One of either `primaries` or `total`
     :rtype: integer
     """
@@ -1976,7 +1976,7 @@ def single_data_path(client, node_id):
     shards cannot span filesystems.  Return `True` if the node has a single
     filesystem, and `False` otherwise.
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: bool
     """
     return len(client.nodes.stats()['nodes'][node_id]['fs']['data']) == 1
@@ -1986,7 +1986,7 @@ def name_to_node_id(client, name):
     """
     Return the node_id of the node identified by ``name``
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: str
     """
     stats = client.nodes.stats()
@@ -2001,7 +2001,7 @@ def node_id_to_name(client, node_id):
     """
     Return the name of the node identified by ``node_id``
 
-    :arg client: An :class:`elasticsearch.Elasticsearch` client object
+    :arg client: An :class:`opensearchpy.OpenSearch` client object
     :rtype: str
     """
     stats = client.nodes.stats()
@@ -2031,8 +2031,8 @@ def get_datemath(client, datemath, random_element=None):
     LOGGER.debug('Random datemath string for extraction: {0}'.format(datemath_dummy))
     try:
         client.indices.get(index=datemath_dummy)
-    except elasticsearch.exceptions.NotFoundError as err:
-        # This is the magic.  Elasticsearch still gave us the formatted
+    except opensearchpy.exceptions.NotFoundError as err:
+        # This is the magic.  OpenSearch still gave us the formatted
         # index name in the error results.
         faux_index = err.info['error']['index']
     LOGGER.debug('Response index name for extraction: {0}'.format(faux_index))

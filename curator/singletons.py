@@ -27,12 +27,12 @@ from curator._version import __version__
     '--config', help='Path to configuration file. Default: ~/.curator/curator.yml',
     type=click.Path(), default=settings.config_file()
 )
-@click.option('--host', help='Elasticsearch host.')
-@click.option('--url_prefix', help='Elasticsearch http url prefix.')
-@click.option('--port', help='Elasticsearch port.')
+@click.option('--host', help='OpenSearch host.')
+@click.option('--url_prefix', help='OpenSearch http url prefix.')
+@click.option('--port', help='OpenSearch port.')
 @click.option(
     '--use_ssl', is_flag=True,
-    callback=false_to_none, help='Connect to Elasticsearch through SSL.'
+    callback=false_to_none, help='Connect to OpenSearch through SSL.'
 )
 @click.option('--certificate', help='Path to certificate to use for SSL validation.')
 @click.option(

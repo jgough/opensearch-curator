@@ -4,7 +4,7 @@
 [partintro]
 --
 
-Beginning with Elasticsearch version 6.6, Elasticsearch has provided 
+Beginning with OpenSearch version 6.6, OpenSearch has provided 
 {ref}/index-lifecycle-management.html[Index Lifecycle Management] (or, ILM) to
 users with at least a Basic license. ILM provides users with many of the most
 common index management features as a matter of policy, rather than execution
@@ -58,18 +58,18 @@ Read more about Filebeat and ILM {fbref}/ilm.html[here].
 === Logstash
 
 NOTE: The Index Lifecycle Management feature requires version 9.3.1 or higher of the
-`logstash-output-elasticsearch` plugin.
+`logstash-output-opensearch` plugin.
 
 Logstash can use {esref}/index-lifecycle-management.html[Index Lifecycle Management]
 to automate the management of indices over time.
 
 The use of Index Lifecycle Management is controlled by the `ilm_enabled` setting. By
-default, this will automatically detect whether the Elasticsearch instance
+default, this will automatically detect whether the OpenSearch instance
 supports ILM, and will use it if it is available. `ilm_enabled` can also be set to
 `true` or `false` to override the automatic detection, or disable ILM.
 
 Read more about Logstash and ILM 
-{lsref}/plugins-outputs-elasticsearch.html#plugins-outputs-elasticsearch-ilm[here].
+{lsref}/plugins-outputs-opensearchpy.html#plugins-outputs-opensearch-ilm[here].
 
 
 [[ilm-and-curator]]

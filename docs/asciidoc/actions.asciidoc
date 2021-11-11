@@ -81,7 +81,7 @@ WARNING: Before creating a filtered alias, first ensure that the fields already
   exist in the mapping.
 
 Learn more about adding filtering and routing to aliases in the
-{ref}/indices-aliases.html[Elasticsearch Alias API documentation].
+{ref}/indices-aliases.html[OpenSearch Alias API documentation].
 
 
 === Required settings
@@ -331,7 +331,7 @@ options:
 
 
 For the `create_index` action, the <<option_name,name>> option can be in
-Elasticsearch
+OpenSearch
 {ref}/date-math-index-names.html[date math] format.  This allows index names
 containing dates to use deterministic math to set a date name in the past or the
 future.
@@ -340,7 +340,7 @@ For example, if today's date were 2017-03-27, the name `<logstash-{now/d}>` will
 create an index named `logstash-2017.03.27`. If you wanted to create
 _tomorrow's_ index, you would use the name `<logstash-{now/d+1d}>`, which adds 1
 day.  This pattern creates an index named `logstash-2017.03.28`.  For many more
-configuration options, read the Elasticsearch
+configuration options, read the OpenSearch
 {ref}/date-math-index-names.html[date math] documentation.
 
 === Extra Settings
@@ -376,7 +376,7 @@ options:
 
 * <<option_extra_settings,extra_settings>> No default value.  You can add any
     acceptable index settings and mappings as nested YAML.  See the
-    {ref}/indices-create-index.html[Elasticsearch Create Index API documentation]
+    {ref}/indices-create-index.html[OpenSearch Create Index API documentation]
     for more information.
 * <<option_timeout_override,timeout_override>>
 * <<option_continue,continue_if_exception>>
@@ -593,7 +593,7 @@ This action updates the specified index settings for the selected indices.
 
 [IMPORTANT]
 =======================
-While Elasticsearch allows for either dotted notation of index settings, such as
+While OpenSearch allows for either dotted notation of index settings, such as
 
 [source,json]
 -------------
@@ -618,9 +618,9 @@ PUT /indexname/_settings
 -------------
 
 In order to appropriately detect
-https://www.elastic.co/guide/en/elasticsearch/reference/5.4/index-modules.html#_static_index_settings[static]
+https://www.elastic.co/guide/en/opensearch/reference/5.4/index-modules.html#_static_index_settings[static]
 vs.
-https://www.elastic.co/guide/en/elasticsearch/reference/5.4/index-modules.html#dynamic-index-settings[dynamic]
+https://www.elastic.co/guide/en/opensearch/reference/5.4/index-modules.html#dynamic-index-settings[dynamic]
 settings, and to be able to verify configurational integrity in the YAML file,
 **Curator does not support using dotted notation.**
 
@@ -731,15 +731,15 @@ TIP: See an example of this action in an <<actionfile,actionfile>>
 === Compatibility
 
 Generally speaking, the Curator should be able to perform a remote reindex from
-any version of Elasticsearch, 1.4 and newer. Strictly speaking, the Reindex API
-in Elasticsearch _is_ able to reindex from older clusters, but Curator cannot be
+any version of OpenSearch, 1.4 and newer. Strictly speaking, the Reindex API
+in OpenSearch _is_ able to reindex from older clusters, but Curator cannot be
 used to facilitate this due to Curator's dependency on changes released in 1.4.
 
-However, there is a https://github.com/elastic/elasticsearch/pull/23805[known bug]
-with Elasticsearch 5.3.0 not being able to reindex from remote clusters older
-than 2.0.  The patch is available in Elasticsearch 5.3.1.  Earlier versions of
-Elasticsearch 5.x do not suffer from this bug. This bug appeared again in
-Elasticsearch 5.4.0, and was fixed in 5.4.1, and hopefully will not appear in
+However, there is a https://github.com/elastic/opensearch/pull/23805[known bug]
+with OpenSearch 5.3.0 not being able to reindex from remote clusters older
+than 2.0.  The patch is available in OpenSearch 5.3.1.  Earlier versions of
+OpenSearch 5.x do not suffer from this bug. This bug appeared again in
+OpenSearch 5.4.0, and was fixed in 5.4.1, and hopefully will not appear in
 any other future releases.
 
 
@@ -876,7 +876,7 @@ actions:
     - filtertype: ...
 -------------
 
-In this configuration, Elasticsearch will capture whatever appears after `index`
+In this configuration, OpenSearch will capture whatever appears after `index`
 and put it after `restored_index`.  For example, if I was restoring
 `index-2017.03.01`, the resulting index would be renamed to
 `restored_index-2017.03.01`.
@@ -918,7 +918,7 @@ actions:
 
 In this case, the number of replicas will be applied to the restored indices.
 
-For more information see the {ref}/snapshots-restore-snapshot.html#change-index-settings-during-restore[official Elasticsearch Documentation].
+For more information see the {ref}/snapshots-restore-snapshot.html#change-index-settings-during-restore[official OpenSearch Documentation].
 
 === Required settings
 
@@ -967,7 +967,7 @@ options:
 -------------
 
 This action uses the
-{ref}/indices-rollover-index.html[Elasticsearch Rollover API] to create a new
+{ref}/indices-rollover-index.html[OpenSearch Rollover API] to create a new
 index, if any of the described conditions are met.
 
 IMPORTANT: When choosing `conditions`, **any** one of
@@ -1017,7 +1017,7 @@ options:
   index before triggering a rollover.  This _must_ be nested under
   `conditions:`. There is no default value.  If this condition is specified, it
   must have a value, or Curator will generate an error.
-* <<option_max_size,max_size>> **Only supported in Elasticsearch 6.1.0 and up.**
+* <<option_max_size,max_size>> **Only supported in OpenSearch 6.1.0 and up.**
   The maximum size the index can be before a rollover is triggered.  This _must_
   be nested under `conditions:`. There is no default value.  If this condition
   is specified, it must have a value, or Curator will generate an error.
@@ -1027,7 +1027,7 @@ options:
 
 * <<option_extra_settings,extra_settings>> No default value.  You can add any
     acceptable index settings (not mappings) as nested YAML.  See the
-    {ref}/indices-create-index.html[Elasticsearch Create Index API documentation]
+    {ref}/indices-create-index.html[OpenSearch Create Index API documentation]
     for more information.
 * <<option_new_index,new_index>> Specify a new index name.
 * <<option_timeout_override,timeout_override>>
@@ -1081,7 +1081,7 @@ NOTE: Empty values and commented lines will result in the default value, if any,
     will be ignored.
 
 Shrinking an index is a good way to reduce the total shard count in your cluster.
-https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-shrink-index.html#_shrinking_an_index[Several conditions need to be met]
+https://www.elastic.co/guide/en/opensearch/reference/current/indices-shrink-index.html#_shrinking_an_index[Several conditions need to be met]
 in order for index shrinking to take place:
 
 * The index must be marked as read-only

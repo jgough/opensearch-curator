@@ -3,7 +3,7 @@ import sys
 import re
 import logging
 import click
-import elasticsearch
+import opensearchpy
 from .defaults import settings
 from .exceptions import *
 from .config_utils import process_config
@@ -142,7 +142,7 @@ def s3(
 )
 @click.pass_context
 def repo_mgr_cli(ctx, config):
-    """Repository manager for Elasticsearch Curator."""
+    """Repository manager for OpenSearch Curator."""
     ctx.obj = {}
     ctx.obj['client_args'] = process_config(config)
     logger = logging.getLogger(__name__)
@@ -151,7 +151,7 @@ def repo_mgr_cli(ctx, config):
 @repo_mgr_cli.group('create')
 @click.pass_context
 def _create(ctx):
-    """Create an Elasticsearch repository"""
+    """Create an OpenSearch repository"""
 _create.add_command(fs)
 _create.add_command(s3)
 
@@ -170,13 +170,13 @@ def show(ctx):
 )
 @click.pass_context
 def _delete(ctx, repository):
-    """Delete an Elasticsearch repository"""
+    """Delete an OpenSearch repository"""
     logger = logging.getLogger('curator.repomgrcli._delete')
     client = get_client(**ctx.obj['client_args'])
     try:
         logger.info('Deleting repository {0}...'.format(repository))
         client.snapshot.delete_repository(repository=repository)
-    except elasticsearch.NotFoundError:
+    except opensearchpy.NotFoundError:
         logger.error(
             'Unable to delete repository: {0}  Not Found.'.format(repository))
         sys.exit(1)
